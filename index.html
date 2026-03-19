@@ -6,106 +6,100 @@
 <title>SparkBook — PySpark Notebook</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg:#07090f; --nb-bg:#0b0f1a; --surface:#111722; --surface2:#161e2e;
-  --surface3:#1c2640; --border:#1e2d42; --border2:#273a55;
-  --accent:#f97316; --accent2:#fb923c; --spark:#facc15;
-  --green:#34d399; --red:#f87171; --blue:#60a5fa;
-  --cyan:#22d3ee; --purple:#a78bfa; --pink:#f472b6;
-  --text:#dde5f4; --text2:#8fa3c0; --muted:#4d6278; --dim:#253040;
+:root{
+  --bg:#07090f;--nb-bg:#0b0f1a;--surface:#111722;--surface2:#161e2e;
+  --surface3:#1c2640;--border:#1e2d42;--border2:#273a55;
+  --accent:#f97316;--accent2:#fb923c;--spark:#facc15;
+  --green:#34d399;--red:#f87171;--blue:#60a5fa;
+  --cyan:#22d3ee;--purple:#a78bfa;--pink:#f472b6;
+  --text:#dde5f4;--text2:#8fa3c0;--muted:#4d6278;--dim:#253040;
   --cell-left:#131c2a;
-  --t-color:#3b82f6; --a-color:#ef4444; --s-color:#a855f7; --n-color:#10b981;
+  --tc:#3b82f6;--ac:#ef4444;--sc:#a855f7;--nc:#10b981;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;background:var(--bg);}
 body{font-family:'DM Sans',sans-serif;color:var(--text);display:flex;flex-direction:column;overflow:hidden;}
-
-/* ── TOP BAR ── */
+/* TOPBAR */
 .topbar{display:flex;align-items:center;height:48px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;}
 .tb-logo{display:flex;align-items:center;gap:9px;padding:0 18px;border-right:1px solid var(--border);height:100%;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;white-space:nowrap;}
 .tb-logo-icon{width:26px;height:26px;background:linear-gradient(135deg,var(--accent),var(--spark));border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px;}
 .tb-logo span{color:var(--accent);}
-.tb-breadcrumb{display:flex;align-items:center;gap:6px;padding:0 14px;border-right:1px solid var(--border);height:100%;}
+.tb-crumb{display:flex;align-items:center;gap:6px;padding:0 14px;border-right:1px solid var(--border);height:100%;cursor:pointer;}
 .nb-title{color:var(--text);font-weight:500;background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;padding:2px 4px;border-radius:4px;transition:background .15s;min-width:80px;}
 .nb-title:focus{background:var(--surface2);}
 .tb-menu{display:flex;align-items:center;gap:2px;padding:0 8px;height:100%;border-right:1px solid var(--border);}
-.tb-menu-item{padding:5px 10px;border-radius:5px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .12s;white-space:nowrap;}
-.tb-menu-item:hover{background:var(--surface2);color:var(--text);}
+.tb-mi{padding:5px 10px;border-radius:5px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .12s;white-space:nowrap;}
+.tb-mi:hover{background:var(--surface2);color:var(--text);}
 .tb-actions{display:flex;align-items:center;gap:8px;padding:0 14px;margin-left:auto;}
-.tb-btn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:6px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .15s;white-space:nowrap;}
-.tb-btn.primary{background:var(--accent);color:#000;font-weight:600;}
-.tb-btn.primary:hover{background:var(--accent2);transform:translateY(-1px);}
-.tb-btn.primary:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.kernel-badge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:5px;background:var(--surface2);border:1px solid var(--border);font-size:11px;color:var(--text2);}
-.kdot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green);animation:kd 2s infinite;}
-@keyframes kd{0%,100%{opacity:1;}50%{opacity:.3;}}
-
-/* ── TOOLBAR ── */
+.tb-btn{display:flex;align-items:center;gap:5px;padding:5px 13px;border-radius:6px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .15s;white-space:nowrap;}
+.tb-btn.pr{background:var(--accent);color:#000;}
+.tb-btn.pr:hover{background:var(--accent2);transform:translateY(-1px);}
+.tb-btn.pr:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.kbadge{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:5px;background:var(--surface2);border:1px solid var(--border);font-size:11px;color:var(--text2);cursor:pointer;transition:all .12s;}
+.kbadge:hover{border-color:var(--border2);color:var(--text);}
+.kdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+/* TOOLBAR */
 .toolbar{display:flex;align-items:center;gap:5px;padding:5px 14px;background:var(--nb-bg);border-bottom:1px solid var(--border);flex-shrink:0;}
 .tsep{width:1px;height:18px;background:var(--border);margin:0 2px;}
 .tbtn{display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:5px;font-size:11.5px;color:var(--text2);font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .12s;border:none;background:transparent;white-space:nowrap;}
 .tbtn:hover{background:var(--surface2);color:var(--text);}
 .tbtn.danger:hover{background:rgba(248,113,113,.1);color:var(--red);}
-
-/* ── LAYOUT ── */
+/* LAYOUT */
 .app-body{display:flex;flex:1;overflow:hidden;}
 .nb-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.notebook-wrap{flex:1;overflow-y:auto;background:var(--nb-bg);padding:20px 0 80px;}
-.notebook-wrap::-webkit-scrollbar{width:5px;}
-.notebook-wrap::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px;}
+.nb-wrap{flex:1;overflow-y:auto;background:var(--nb-bg);padding:20px 0 80px;}
+.nb-wrap::-webkit-scrollbar{width:5px;}
+.nb-wrap::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px;}
 .notebook{max-width:980px;margin:0 auto;padding:0 28px;display:flex;flex-direction:column;}
-
-/* ── CELL ── */
+/* CELL */
 .cell{position:relative;display:flex;flex-direction:column;transition:all .15s;}
 .cell-inner{display:flex;border:1px solid var(--border);border-top:none;background:var(--surface);transition:border-color .15s;position:relative;}
-.cell:first-of-type .cell-inner,.cell-group:first-child .cell-inner{border-top:1px solid var(--border);}
+.cell:first-of-type .cell-inner{border-top:1px solid var(--border);}
 .cell.focused .cell-inner{border-color:var(--border2);}
 .cell.running .cell-inner{border-color:rgba(52,211,153,.3);}
-.cell-gutter{width:46px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:10px 0 6px;background:var(--cell-left);border-right:1px solid var(--border);cursor:pointer;}
-.cell-gutter:hover .run-icon{opacity:1!important;}
-.run-icon{font-size:12px;opacity:.2;transition:opacity .15s;cursor:pointer;}
+.cgutter{width:46px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:10px 0 6px;background:var(--cell-left);border-right:1px solid var(--border);cursor:pointer;}
+.cgutter:hover .run-icon{opacity:1!important;}
+.run-icon{font-size:12px;opacity:.2;transition:opacity .15s;cursor:pointer;line-height:1;}
 .cell.running .run-icon{opacity:1;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.cell-num{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:4px;}
-.cell-num.done{color:var(--green);}
-.cell-num.errored{color:var(--red);}
-.cell-body{flex:1;min-width:0;display:flex;flex-direction:column;}
-.cell-typebar{display:flex;align-items:center;padding:0 10px;border-bottom:1px solid var(--border);background:var(--surface2);opacity:0;transition:opacity .15s;height:24px;}
-.cell:hover .cell-typebar,.cell.focused .cell-typebar{opacity:1;}
+.cnum{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:4px;}
+.cnum.done{color:var(--green);} .cnum.errored{color:var(--red);}
+.cbody{flex:1;min-width:0;display:flex;flex-direction:column;}
+.ctypebar{display:flex;align-items:center;padding:0 10px;border-bottom:1px solid var(--border);background:var(--surface2);opacity:0;transition:opacity .15s;height:24px;}
+.cell:hover .ctypebar,.cell.focused .ctypebar{opacity:1;}
 .ctype{padding:2px 8px;font-size:9.5px;color:var(--muted);cursor:pointer;border-radius:3px;transition:all .1s;}
 .ctype.active{background:var(--surface3);color:var(--text);}
 .ctype:hover:not(.active){color:var(--text2);}
 .clang{margin-left:auto;font-size:8.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
-.cell-editor-wrap{position:relative;display:flex;}
-.cell-linenos{width:34px;flex-shrink:0;padding:11px 0;text-align:right;font-size:11px;font-family:'JetBrains Mono',monospace;line-height:20px;color:var(--muted);user-select:none;pointer-events:none;border-right:1px solid var(--border);overflow:hidden;}
-.cell-linenos span{display:block;padding-right:7px;}
-.cell-ta{flex:1;padding:11px 13px;background:transparent;color:var(--text);border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;tab-size:4;white-space:pre;overflow-x:auto;caret-color:var(--accent);min-height:46px;}
-.cell-ta::-webkit-scrollbar{height:3px;}
-.cell-ta::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
-.cell-md-render{padding:13px 16px;font-size:13.5px;line-height:1.7;display:none;}
-.cell-md-render.visible{display:block;}
-.cell-md-render h1{font-size:21px;font-weight:700;margin-bottom:8px;color:var(--text);font-family:'Syne',sans-serif;}
-.cell-md-render h2{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--text);}
-.cell-md-render h3{font-size:13.5px;font-weight:600;margin-bottom:4px;color:var(--text2);}
-.cell-md-render p{margin-bottom:8px;color:var(--text2);}
-.cell-md-render code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--surface3);padding:1px 5px;border-radius:3px;color:var(--cyan);}
-.cell-md-render strong{color:var(--text);}
-.cell-md-render ul{margin-left:18px;margin-bottom:8px;color:var(--text2);}
-.cell-md-render blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--text2);font-style:italic;}
-.cell-controls{position:absolute;right:7px;top:7px;display:flex;gap:3px;opacity:0;transition:opacity .15s;z-index:10;}
-.cell:hover .cell-controls,.cell.focused .cell-controls{opacity:1;}
+.cew{position:relative;display:flex;}
+.clnos{width:34px;flex-shrink:0;padding:11px 0;text-align:right;font-size:11px;font-family:'JetBrains Mono',monospace;line-height:20px;color:var(--muted);user-select:none;pointer-events:none;border-right:1px solid var(--border);overflow:hidden;}
+.clnos span{display:block;padding-right:7px;}
+.cta{flex:1;padding:11px 13px;background:transparent;color:var(--text);border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;tab-size:4;white-space:pre;overflow-x:auto;caret-color:var(--accent);min-height:46px;}
+.cta::-webkit-scrollbar{height:3px;}
+.cta::-webkit-scrollbar-thumb{background:var(--dim);}
+.cmd-render{padding:13px 16px;font-size:13.5px;line-height:1.7;display:none;}
+.cmd-render.visible{display:block;}
+.cmd-render h1{font-size:21px;font-weight:700;margin-bottom:8px;color:var(--text);font-family:'Syne',sans-serif;}
+.cmd-render h2{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--text);}
+.cmd-render h3{font-size:13.5px;font-weight:600;margin-bottom:4px;color:var(--text2);}
+.cmd-render p{margin-bottom:8px;color:var(--text2);}
+.cmd-render code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--surface3);padding:1px 5px;border-radius:3px;color:var(--cyan);}
+.cmd-render strong{color:var(--text);}
+.cmd-render ul{margin-left:18px;margin-bottom:8px;color:var(--text2);}
+.cmd-render blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--text2);font-style:italic;}
+.ccontrols{position:absolute;right:7px;top:7px;display:flex;gap:3px;opacity:0;transition:opacity .15s;z-index:10;}
+.cell:hover .ccontrols,.cell.focused .ccontrols{opacity:1;}
 .ctrl-btn{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;background:var(--surface2);border:1px solid var(--border);color:var(--text2);transition:all .1s;}
 .ctrl-btn:hover{background:var(--surface3);color:var(--text);}
 .ctrl-btn.del:hover{background:rgba(248,113,113,.12);color:var(--red);border-color:rgba(248,113,113,.3);}
-
-/* ── CELL OUTPUT ── */
-.cell-output{border-top:1px solid var(--border);background:var(--nb-bg);display:none;}
-.cell-output.visible{display:block;}
-.cell-output-inner{display:flex;}
-.cell-output-gutter{width:46px;flex-shrink:0;background:var(--cell-left);border-right:1px solid var(--border);}
-.cell-output-body{flex:1;padding:9px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;overflow-x:auto;min-width:0;}
-.cell-output-body::-webkit-scrollbar{height:3px;}
-.cell-output-body::-webkit-scrollbar-thumb{background:var(--dim);}
+/* OUTPUT */
+.cout{border-top:1px solid var(--border);background:var(--nb-bg);display:none;}
+.cout.visible{display:block;}
+.cout-inner{display:flex;}
+.cout-gutter{width:46px;flex-shrink:0;background:var(--cell-left);border-right:1px solid var(--border);}
+.cout-body{flex:1;padding:9px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;overflow-x:auto;min-width:0;}
+.cout-body::-webkit-scrollbar{height:3px;}
+.cout-body::-webkit-scrollbar-thumb{background:var(--dim);}
 .out-stdout{color:var(--text);white-space:pre-wrap;}
 .out-error{color:var(--red);white-space:pre-wrap;}
 .out-tag{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:1px 5px;border-radius:3px;margin-bottom:4px;}
@@ -113,141 +107,112 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);display:flex;flex-direct
 .out-tag.err{background:rgba(248,113,113,.1);color:var(--red);}
 .out-tag.df{background:rgba(96,165,250,.1);color:var(--blue);}
 .out-tag.schema{background:rgba(250,204,21,.1);color:var(--spark);}
-.nb-table{border-collapse:collapse;font-size:11.5px;margin-top:3px;}
-.nb-table th{background:var(--surface2);color:var(--spark);padding:5px 11px;text-align:left;font-weight:600;border:1px solid var(--border);}
-.nb-table td{padding:4px 11px;border:1px solid var(--border);color:var(--text);}
-.nb-table tr:nth-child(even) td{background:rgba(255,255,255,.02);}
-.schema-row{display:flex;gap:10px;padding:2px 0;font-size:11px;align-items:center;}
-.schema-row .sn{color:var(--blue);width:110px;} .schema-row .st{color:var(--purple);width:100px;} .schema-row .sq{color:var(--muted);font-size:9.5px;}
-.out-loader{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px;padding:3px 0;}
-.out-loader-dots{display:flex;gap:3px;}
-.out-loader-dots span{width:4px;height:4px;border-radius:50%;background:var(--accent);animation:ld 1s infinite;}
-.out-loader-dots span:nth-child(2){animation-delay:.15s;}
-.out-loader-dots span:nth-child(3){animation-delay:.3s;}
+.nbt{border-collapse:collapse;font-size:11.5px;margin-top:3px;}
+.nbt th{background:var(--surface2);color:var(--spark);padding:5px 11px;text-align:left;font-weight:600;border:1px solid var(--border);}
+.nbt td{padding:4px 11px;border:1px solid var(--border);color:var(--text);}
+.nbt tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+.srow{display:flex;gap:10px;padding:2px 0;font-size:11px;align-items:center;}
+.srow .sn{color:var(--blue);width:110px;}.srow .st{color:var(--purple);width:100px;}.srow .sq{color:var(--muted);font-size:9.5px;}
+.loader{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px;padding:3px 0;}
+.ldots{display:flex;gap:3px;}
+.ldots span{width:4px;height:4px;border-radius:50%;background:var(--accent);animation:ld 1s infinite;}
+.ldots span:nth-child(2){animation-delay:.15s;}.ldots span:nth-child(3){animation-delay:.3s;}
 @keyframes ld{0%,100%{opacity:.3;transform:none;}50%{opacity:1;transform:translateY(-3px);}}
-
-/* ── INTERNALS PANEL (per-cell) ── */
-.cell-internals{display:none;border-top:1px solid var(--border);}
-.cell-internals.visible{display:block;}
-.int-toggle-bar{
-  display:flex;align-items:center;gap:8px;
-  padding:7px 13px 7px 59px;
-  background:var(--nb-bg);
-  cursor:pointer;
-  border-top:1px solid var(--border);
-  transition:background .12s;
-  user-select:none;
-}
-.int-toggle-bar:hover{background:var(--surface);}
-.int-toggle-label{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;}
-.int-toggle-label .pill{font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;letter-spacing:.5px;}
-.pill.transform{background:rgba(59,130,246,.15);color:var(--t-color);}
-.pill.action{background:rgba(239,68,68,.15);color:var(--a-color);}
-.pill.shuffle{background:rgba(168,85,247,.15);color:var(--s-color);}
-.int-toggle-chevron{margin-left:auto;font-size:10px;color:var(--muted);transition:transform .2s;}
-.int-toggle-bar.open .int-toggle-chevron{transform:rotate(180deg);}
+/* INTERNALS */
+.int-toggle{display:flex;align-items:center;gap:8px;padding:7px 13px 7px 59px;background:var(--nb-bg);cursor:pointer;border-top:1px solid var(--border);transition:background .12s;user-select:none;}
+.int-toggle:hover{background:var(--surface);}
+.int-toggle-label{font-size:11px;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;flex:1;}
+.ipill{font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:10px;letter-spacing:.5px;}
+.ipill.t{background:rgba(59,130,246,.15);color:var(--tc);}
+.ipill.a{background:rgba(239,68,68,.15);color:var(--ac);}
+.ipill.s{background:rgba(168,85,247,.15);color:var(--sc);}
+.int-chev{font-size:10px;color:var(--muted);transition:transform .2s;}
+.int-toggle.open .int-chev{transform:rotate(180deg);}
 .int-body{display:none;background:var(--nb-bg);border-top:1px solid var(--border);}
 .int-body.open{display:block;}
-
-/* Internals tabs */
 .int-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding-left:46px;}
-.int-tab{padding:7px 14px;font-size:11px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;white-space:nowrap;}
-.int-tab.active{color:var(--text);border-bottom-color:var(--accent);}
-.int-tab:hover:not(.active){color:var(--text2);}
-.int-tab-panel{display:none;padding:14px 14px 14px 60px;}
-.int-tab-panel.active{display:block;}
-
-/* Op pipeline */
+.itab{padding:7px 14px;font-size:11px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;white-space:nowrap;}
+.itab.active{color:var(--text);border-bottom-color:var(--accent);}
+.itab:hover:not(.active){color:var(--text2);}
+.itp{display:none;padding:14px 14px 14px 60px;}
+.itp.active{display:block;}
 .op-pipeline{display:flex;flex-direction:column;}
 .op-row{display:flex;align-items:stretch;animation:opIn .25s ease both;}
 @keyframes opIn{from{opacity:0;transform:translateX(-6px);}to{opacity:1;transform:translateX(0);}}
-.op-connector{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0;}
-.op-line-seg{flex:1;width:2px;background:var(--border2);margin:0 auto;}
-.op-line-seg.first{background:transparent;}
+.op-conn{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0;}
+.op-seg{flex:1;width:2px;background:var(--border2);margin:0 auto;}
+.op-seg.first{background:transparent;}
 .op-dot{width:10px;height:10px;border-radius:50%;border:2px solid;flex-shrink:0;box-shadow:0 0 6px currentColor;}
-.op-dot.transformation{background:rgba(59,130,246,.2);border-color:var(--t-color);color:var(--t-color);}
-.op-dot.action{background:rgba(239,68,68,.2);border-color:var(--a-color);color:var(--a-color);}
-.op-dot.shuffle{background:rgba(168,85,247,.2);border-color:var(--s-color);color:var(--s-color);}
-.op-dot.narrow{background:rgba(16,185,129,.2);border-color:var(--n-color);color:var(--n-color);}
+.op-dot.transformation{background:rgba(59,130,246,.2);border-color:var(--tc);color:var(--tc);}
+.op-dot.action{background:rgba(239,68,68,.2);border-color:var(--ac);color:var(--ac);}
+.op-dot.shuffle{background:rgba(168,85,247,.2);border-color:var(--sc);color:var(--sc);}
+.op-dot.narrow{background:rgba(16,185,129,.2);border-color:var(--nc);color:var(--nc);}
 .op-dot.init{background:rgba(250,204,21,.2);border-color:var(--spark);color:var(--spark);}
 .op-card{flex:1;margin:0 0 5px 9px;padding:9px 11px;background:var(--surface);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .12s;position:relative;overflow:hidden;}
 .op-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
-.op-card.transformation::before{background:var(--t-color);}
-.op-card.action::before{background:var(--a-color);}
-.op-card.shuffle::before{background:var(--s-color);}
-.op-card.narrow::before{background:var(--n-color);}
+.op-card.transformation::before{background:var(--tc);}
+.op-card.action::before{background:var(--ac);}
+.op-card.shuffle::before{background:var(--sc);}
+.op-card.narrow::before{background:var(--nc);}
 .op-card.init::before{background:var(--spark);}
 .op-card:hover,.op-card.expanded{border-color:var(--border2);background:var(--surface2);}
-.op-header{display:flex;align-items:center;gap:7px;margin-bottom:3px;}
+.op-hdr{display:flex;align-items:center;gap:7px;margin-bottom:3px;}
 .op-name{font-size:12px;font-weight:600;color:var(--text);font-family:'JetBrains Mono',monospace;}
 .op-badge{font-size:7.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;padding:1px 5px;border-radius:3px;}
-.op-badge.transformation{background:rgba(59,130,246,.15);color:var(--t-color);}
-.op-badge.action{background:rgba(239,68,68,.15);color:var(--a-color);}
-.op-badge.shuffle{background:rgba(168,85,247,.15);color:var(--s-color);}
-.op-badge.narrow{background:rgba(16,185,129,.15);color:var(--n-color);}
+.op-badge.transformation{background:rgba(59,130,246,.15);color:var(--tc);}
+.op-badge.action{background:rgba(239,68,68,.15);color:var(--ac);}
+.op-badge.shuffle{background:rgba(168,85,247,.15);color:var(--sc);}
+.op-badge.narrow{background:rgba(16,185,129,.15);color:var(--nc);}
 .op-badge.init{background:rgba(250,204,21,.15);color:var(--spark);}
-.shuffle-pill{font-size:8px;padding:1px 6px;border-radius:3px;background:rgba(168,85,247,.12);color:var(--s-color);display:inline-flex;align-items:center;gap:3px;}
-.op-line-ref{margin-left:auto;font-size:9.5px;color:var(--muted);}
-.op-summary{font-size:10.5px;color:var(--muted);line-height:1.5;}
-.op-expand{margin-top:7px;padding-top:7px;border-top:1px solid var(--border);display:none;flex-direction:column;gap:5px;}
-.op-card.expanded .op-expand{display:flex;}
-.exp-row{display:flex;gap:7px;align-items:flex-start;}
-.exp-key{font-size:9.5px;color:var(--muted);width:88px;flex-shrink:0;padding-top:1px;font-family:'DM Sans',sans-serif;}
-.exp-val{font-size:10.5px;color:var(--text);line-height:1.5;}
-.exp-val.blue{color:var(--blue);} .exp-val.green{color:var(--green);} .exp-val.orange{color:var(--accent2);} .exp-val.purple{color:var(--purple);} .exp-val.red{color:var(--red);}
-
-/* Concept box */
-.concept-box{background:linear-gradient(135deg,rgba(249,115,22,.06),rgba(250,204,21,.03));border:1px solid rgba(249,115,22,.18);border-radius:7px;padding:9px 11px;margin-bottom:10px;}
-.cb-title{font-size:8.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:3px;}
-.cb-body{font-size:10.5px;color:var(--muted);line-height:1.6;}
-.cb-body strong{color:var(--text);}
-
-/* Stats row */
+.spill{font-size:8px;padding:1px 6px;border-radius:3px;background:rgba(168,85,247,.12);color:var(--sc);display:inline-flex;align-items:center;gap:3px;}
+.op-lref{margin-left:auto;font-size:9.5px;color:var(--muted);}
+.op-sum{font-size:10.5px;color:var(--muted);line-height:1.5;}
+.op-exp{margin-top:7px;padding-top:7px;border-top:1px solid var(--border);display:none;flex-direction:column;gap:5px;}
+.op-card.expanded .op-exp{display:flex;}
+.erow{display:flex;gap:7px;align-items:flex-start;}
+.ekey{font-size:9.5px;color:var(--muted);width:88px;flex-shrink:0;padding-top:1px;}
+.eval{font-size:10.5px;color:var(--text);line-height:1.5;}
+.eval.blue{color:var(--blue);}.eval.green{color:var(--green);}.eval.orange{color:var(--accent2);}.eval.purple{color:var(--purple);}.eval.red{color:var(--red);}
+.cbox{background:linear-gradient(135deg,rgba(249,115,22,.06),rgba(250,204,21,.03));border:1px solid rgba(249,115,22,.18);border-radius:7px;padding:9px 11px;margin-bottom:10px;}
+.cbox-t{font-size:8.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:3px;}
+.cbox-b{font-size:10.5px;color:var(--muted);line-height:1.6;}
+.cbox-b strong{color:var(--text);}
 .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:10px;}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px;}
 .stat-val{font-size:20px;font-weight:700;font-family:'Syne',sans-serif;}
 .stat-key{font-size:8.5px;color:var(--muted);margin-top:1px;letter-spacing:.5px;}
 .stat-sub{font-size:9px;color:var(--muted);margin-top:3px;}
-
-/* Stage cards */
 .stage-list{display:flex;flex-direction:column;gap:7px;}
 .stage-card{background:var(--surface);border:1px solid var(--border2);border-radius:7px;padding:9px 11px;}
 .stage-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
 .stage-title{font-size:11px;font-weight:600;color:var(--text);}
 .stage-meta{font-size:9.5px;color:var(--muted);}
 .stage-ops{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px;}
-.stage-op-pill{font-size:9.5px;padding:1px 7px;border-radius:3px;background:var(--surface2);border:1px solid var(--border);color:var(--text);}
+.sop-pill{font-size:9.5px;padding:1px 7px;border-radius:3px;background:var(--surface2);border:1px solid var(--border);color:var(--text);}
 .stage-desc{font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.5;}
-.stage-bar-wrap{height:3px;background:var(--dim);border-radius:2px;overflow:hidden;}
-.stage-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--spark));animation:bgrow .7s ease both;}
+.sbar-wrap{height:3px;background:var(--dim);border-radius:2px;overflow:hidden;}
+.sbar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--spark));animation:bgrow .7s ease both;}
 @keyframes bgrow{from{width:0;}to{width:var(--w);}}
-
-/* DAG SVG */
-.dag-svg-wrap{overflow-x:auto;padding:4px 0 8px;}
-.dag-svg{display:block;}
-
-/* Exec plan */
+.dag-wrap{overflow-x:auto;padding:4px 0 8px;}
 .plan-tree{font-size:11px;line-height:1.9;color:var(--text);font-family:'JetBrains Mono',monospace;}
 .plan-node{padding:1px 0;}
-.p-scan{color:var(--green);font-weight:600;} .p-project{color:var(--blue);font-weight:600;} .p-filter{color:var(--cyan);font-weight:600;}
-.p-agg{color:var(--spark);font-weight:600;} .p-join{color:var(--pink);font-weight:600;} .p-sort{color:var(--accent2);font-weight:600;}
-.p-exchange{color:var(--s-color);font-weight:600;} .p-other{color:var(--muted);}
+.p-scan{color:var(--green);font-weight:600;}.p-project{color:var(--blue);font-weight:600;}.p-filter{color:var(--cyan);font-weight:600;}
+.p-agg{color:var(--spark);font-weight:600;}.p-join{color:var(--pink);font-weight:600;}.p-sort{color:var(--accent2);font-weight:600;}
+.p-exchange{color:var(--sc);font-weight:600;}.p-other{color:var(--muted);}
 .p-detail{color:var(--muted);font-size:9.5px;}
 .opt-item{display:flex;align-items:flex-start;gap:7px;padding:6px 9px;background:var(--surface);border:1px solid var(--border);border-radius:6px;margin-bottom:5px;}
 .opt-check{color:var(--green);flex-shrink:0;font-size:12px;}
 .opt-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;}
 .opt-desc{font-size:10px;color:var(--muted);}
-
-/* Add row */
+/* ADD ROW */
 .add-row{height:16px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .15s;cursor:pointer;position:relative;}
 .add-row::before{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);}
 .notebook:hover .add-row{opacity:.12;}
 .add-row:hover{opacity:1!important;}
 .add-btn{display:flex;align-items:center;gap:3px;padding:2px 10px;border-radius:10px;background:var(--surface);border:1px solid var(--border2);font-size:10px;color:var(--text2);font-family:'DM Sans',sans-serif;cursor:pointer;position:relative;z-index:1;transition:all .15s;}
 .add-btn:hover{background:var(--surface2);color:var(--text);}
-
-/* Right panel */
-.right-panel{width:230px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+/* RIGHT PANEL */
+.rp{width:230px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
 .rp-tabs{display:flex;border-bottom:1px solid var(--border);}
 .rp-tab{flex:1;text-align:center;padding:8px 4px;font-size:10.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .12s;}
 .rp-tab.active{color:var(--text);border-bottom-color:var(--accent);}
@@ -260,167 +225,172 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);display:flex;flex-direct
 .var-type{color:var(--purple);font-size:9px;margin-left:3px;}
 .var-val{color:var(--text2);font-size:10px;margin-top:1px;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .rp-empty{padding:18px 12px;font-size:10.5px;color:var(--muted);text-align:center;line-height:1.6;}
-.dag-legend{display:flex;flex-direction:column;gap:4px;padding:10px 12px;}
-.leg-row{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted);}
-.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .rp-sec{padding:8px 12px 4px;font-size:8.5px;font-weight:700;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase;}
-
-/* Statusbar */
-.statusbar{height:22px;display:flex;align-items:center;gap:14px;padding:0 14px;background:var(--surface);border-top:1px solid var(--border);font-size:10px;color:var(--muted);flex-shrink:0;}
+.leg-row{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted);padding:4px 12px;}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+/* STATUS BAR */
+.sbar-bottom{height:22px;display:flex;align-items:center;gap:14px;padding:0 14px;background:var(--surface);border-top:1px solid var(--border);font-size:10px;color:var(--muted);flex-shrink:0;}
 .s-sep{width:1px;height:11px;background:var(--border);}
 kbd{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:0 4px;font-size:9px;color:var(--text);font-family:'JetBrains Mono',monospace;}
-
-/* ── SAVE TOAST ── */
-.save-toast{
-  position:fixed;bottom:36px;right:20px;z-index:9999;
-  background:var(--surface);border:1px solid var(--border2);
-  color:var(--green);font-size:11.5px;padding:7px 14px;border-radius:7px;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
-  opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;
-  font-family:'DM Sans',sans-serif;
-}
-.save-toast.show{opacity:1;transform:translateY(0);}
-
-/* ── NOTEBOOK MANAGER MODAL ── */
-.nb-modal-overlay{
-  position:fixed;inset:0;z-index:9000;
-  background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .2s;
-}
-.nb-modal-overlay.open{opacity:1;pointer-events:all;}
-.nb-modal{
-  background:var(--surface);border:1px solid var(--border2);
-  border-radius:12px;width:580px;max-width:92vw;max-height:75vh;
-  display:flex;flex-direction:column;overflow:hidden;
-  box-shadow:0 24px 60px rgba(0,0,0,.6);
-  transform:scale(.96);transition:transform .2s;
-}
-.nb-modal-overlay.open .nb-modal{transform:scale(1);}
-.nb-modal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;
-}
-.nb-modal-list{flex:1;overflow-y:auto;padding:10px 12px;}
-.nb-modal-list::-webkit-scrollbar{width:4px;}
-.nb-modal-list::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
-.nb-item{
-  display:flex;align-items:center;gap:12px;
-  padding:11px 12px;border-radius:8px;cursor:pointer;
-  border:1px solid transparent;transition:all .12s;margin-bottom:5px;
-}
+/* MODALS */
+.modal-overlay{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;width:520px;max-width:92vw;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6);transform:scale(.96);transition:transform .2s;}
+.modal-overlay.open .modal{transform:scale(1);}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.modal-close{cursor:pointer;color:var(--muted);padding:4px 8px;font-size:20px;line-height:1;}
+.modal-close:hover{color:var(--text);}
+.mbtn{padding:5px 12px;border-radius:6px;font-size:11.5px;font-family:'DM Sans',sans-serif;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);transition:all .12s;}
+.mbtn:hover{background:var(--surface2);color:var(--text);}
+.mbtn.pr{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
+.mbtn.pr:hover{background:var(--accent2);}
+.mbtn.danger{border-color:rgba(248,113,113,.3);color:var(--red);background:transparent;}
+.mbtn.danger:hover{background:rgba(248,113,113,.1);}
+/* NB MANAGER */
+.nb-list{flex:1;overflow-y:auto;padding:10px 12px;}
+.nb-list::-webkit-scrollbar{width:4px;}
+.nb-list::-webkit-scrollbar-thumb{background:var(--dim);}
+.nb-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:all .12s;margin-bottom:5px;}
 .nb-item:hover{background:var(--surface2);border-color:var(--border);}
 .nb-item.active{background:var(--surface2);border-color:var(--border2);}
-.nb-item-icon{font-size:22px;flex-shrink:0;line-height:1;}
-.nb-item-info{flex:1;min-width:0;}
-.nb-item-title{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.nb-item-meta{font-size:10.5px;color:var(--muted);margin-top:2px;}
-.nb-item-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
-.nb-del-btn{font-size:14px;padding:3px 5px;border-radius:4px;cursor:pointer;color:var(--muted);transition:all .12s;}
-.nb-del-btn:hover{background:rgba(248,113,113,.12);color:var(--red);}
-.nb-modal-btn{
-  padding:5px 12px;border-radius:6px;font-size:11.5px;font-family:'DM Sans',sans-serif;
-  cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text2);transition:all .12s;
-}
-.nb-modal-btn:hover{background:var(--surface2);color:var(--text);}
-.nb-modal-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;}
-.nb-modal-btn.primary:hover{background:var(--accent2);}
+.nb-icon{font-size:22px;flex-shrink:0;}
+.nb-info{flex:1;min-width:0;}
+.nb-iname{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nb-imeta{font-size:10.5px;color:var(--muted);margin-top:2px;}
+.nb-iactions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.nb-del{font-size:14px;padding:3px 5px;border-radius:4px;cursor:pointer;color:var(--muted);transition:all .12s;}
+.nb-del:hover{background:rgba(248,113,113,.12);color:var(--red);}
+/* KEY MODAL */
+.key-input{width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .15s;}
+.key-input:focus{border-color:var(--accent);}
+.key-info{background:var(--surface2);border-radius:7px;border:1px solid var(--border);padding:12px;margin-top:16px;}
+/* TOAST */
+.toast{position:fixed;bottom:36px;right:20px;z-index:9999;background:var(--surface);border:1px solid var(--border2);color:var(--green);font-size:11.5px;padding:7px 14px;border-radius:7px;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;font-family:'DM Sans',sans-serif;}
+.toast.show{opacity:1;transform:translateY(0);}
 </style>
 </head>
 <body>
 
-<!-- NOTEBOOK MANAGER MODAL -->
-<div id="nbManagerModal" class="nb-modal-overlay" onclick="if(event.target===this)closeNbManager()">
-  <div class="nb-modal">
-    <div class="nb-modal-header">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px">📓 My Notebooks</div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="nb-modal-btn" onclick="importNotebook();closeNbManager()">⬆ Import</button>
-        <button class="nb-modal-btn primary" onclick="newNotebook()">＋ New Notebook</button>
-        <div style="cursor:pointer;color:var(--muted);padding:4px 8px;font-size:20px;line-height:1" onclick="closeNbManager()">×</div>
+<!-- KEY MODAL -->
+<div id="keyModal" class="modal-overlay" onclick="if(event.target===this)closeKeyModal()">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-hdr">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px">🔑 Anthropic API Key</div>
+      <div class="modal-close" onclick="closeKeyModal()">×</div>
+    </div>
+    <div style="padding:20px">
+      <p id="keyMsg" style="font-size:12px;color:var(--red);margin-bottom:10px;min-height:16px"></p>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.6">Your key is stored <strong style="color:var(--text)">only in your browser</strong> (localStorage). It's never sent anywhere except directly to Anthropic's API.</div>
+      <input id="keyInput" type="password" class="key-input" placeholder="sk-ant-api03-..." onkeydown="if(event.key==='Enter')saveKey()"/>
+      <div style="display:flex;gap:8px;justify-content:space-between;align-items:center">
+        <button class="mbtn danger" onclick="removeKey()">🗑 Remove Key</button>
+        <div style="display:flex;gap:8px">
+          <button class="mbtn" onclick="closeKeyModal()">Cancel</button>
+          <button class="mbtn pr" onclick="saveKey()">Save Key ✓</button>
+        </div>
+      </div>
+      <div class="key-info">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:6px">How to get a key</div>
+        <div style="font-size:11.5px;color:var(--text2);line-height:1.7">
+          1. Go to <strong style="color:var(--text)">console.anthropic.com</strong><br>
+          2. API Keys → Create Key → copy it<br>
+          3. Set a spend limit under Billing → Usage Limits<br>
+          4. Paste above and click <strong style="color:var(--accent)">Save Key</strong><br>
+          <span style="color:var(--green);margin-top:4px;display:block">🔴 To disable: click Remove Key — zero cost when no key is set.</span>
+        </div>
       </div>
     </div>
-    <div id="nbManagerList" class="nb-modal-list"></div>
   </div>
 </div>
 
-<!-- SAVE TOAST -->
-<div id="saveToast" class="save-toast">💾 Auto-saved</div>
+<!-- NB MANAGER MODAL -->
+<div id="nbModal" class="modal-overlay" onclick="if(event.target===this)closeNbModal()">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px">📓 My Notebooks</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="mbtn" onclick="importNb()">⬆ Import</button>
+        <button class="mbtn pr" onclick="newNb()">＋ New</button>
+        <div class="modal-close" onclick="closeNbModal()">×</div>
+      </div>
+    </div>
+    <div class="nb-list" id="nbList"></div>
+  </div>
+</div>
 
-<!-- TOP BAR -->
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- TOPBAR -->
 <div class="topbar">
   <div class="tb-logo"><div class="tb-logo-icon">⚡</div>Spark<span>Book</span></div>
-  <div class="tb-breadcrumb" style="cursor:pointer" onclick="openNbManager()" title="Manage notebooks">
+  <div class="tb-crumb" onclick="openNbModal()" title="My Notebooks">
     <span style="color:var(--muted);font-size:12px">Notebooks /</span>
     <input class="nb-title" id="nbTitle" value="Untitled Notebook" spellcheck="false" onclick="event.stopPropagation()"/>
-    <span style="font-size:10px;color:var(--muted);margin-left:2px">▾</span>
+    <span style="font-size:10px;color:var(--muted)">▾</span>
   </div>
   <div class="tb-menu">
-    <div class="tb-menu-item" onclick="openNbManager()">📓 Notebooks</div>
-    <div class="tb-menu-item" onclick="addCell('code')">+ Code</div>
-    <div class="tb-menu-item" onclick="addCell('markdown')">+ Markdown</div>
-    <div class="tb-menu-item" onclick="runAll()">▶ Run All</div>
-    <div class="tb-menu-item" onclick="clearAllOutputs()">Clear Outputs</div>
-    <div class="tb-menu-item" onclick="exportNotebook()">⬇ Export .json</div>
-    <div class="tb-menu-item" onclick="importNotebook()">⬆ Import .json</div>
+    <div class="tb-mi" onclick="openNbModal()">📓 Notebooks</div>
+    <div class="tb-mi" onclick="addCell('code')">+ Code</div>
+    <div class="tb-mi" onclick="addCell('markdown')">+ Markdown</div>
+    <div class="tb-mi" onclick="runAll()">▶ Run All</div>
+    <div class="tb-mi" onclick="clearAllOutputs()">Clear Outputs</div>
+    <div class="tb-mi" onclick="exportNb()">⬇ Export</div>
+    <div class="tb-mi" onclick="importNb()">⬆ Import</div>
   </div>
   <div class="tb-actions">
-    <div class="kernel-badge" onclick="showKeyModal()" style="cursor:pointer" title="API Key Settings">
-      <div id="apiStatusDot" class="kdot"></div>
-      <span id="apiStatusLabel">PySpark 3.5</span>
+    <div class="kbadge" onclick="openKeyModal()" title="API Key Settings">
+      <div id="apiDot" class="kdot" style="background:var(--red)"></div>
+      <span id="apiLabel">No API Key</span>
       <span style="font-size:9px;opacity:.5;margin-left:2px">⚙</span>
     </div>
-    <button class="tb-btn primary" id="runAllBtn" onclick="runAll()">▶▶ Run All Cells</button>
+    <button class="tb-btn pr" id="runAllBtn" onclick="runAll()">▶▶ Run All Cells</button>
   </div>
 </div>
 
 <!-- TOOLBAR -->
 <div class="toolbar">
-  <button class="tbtn" onclick="addCell('code',getFocusedIdx())">＋ Code</button>
-  <button class="tbtn" onclick="addCell('markdown',getFocusedIdx())">＋ Markdown</button>
+  <button class="tbtn" onclick="addCell('code',getFocIdx())">＋ Code</button>
+  <button class="tbtn" onclick="addCell('markdown',getFocIdx())">＋ Markdown</button>
   <div class="tsep"></div>
   <button class="tbtn" onclick="runFocused()">▶ Run Cell <kbd>Shift+Enter</kbd></button>
   <button class="tbtn" onclick="runAll()">▶▶ Run All</button>
   <div class="tsep"></div>
-  <button class="tbtn" onclick="moveFocused(-1)">↑ Up</button>
-  <button class="tbtn" onclick="moveFocused(1)">↓ Down</button>
+  <button class="tbtn" onclick="moveFoc(-1)">↑ Up</button>
+  <button class="tbtn" onclick="moveFoc(1)">↓ Down</button>
   <div class="tsep"></div>
-  <button class="tbtn danger" onclick="deleteFocused()">🗑 Delete</button>
+  <button class="tbtn danger" onclick="delFocused()">🗑 Delete</button>
   <button class="tbtn" onclick="clearAllOutputs()">⊘ Clear</button>
-  <div style="margin-left:auto;font-size:10.5px;color:var(--muted)" id="cellCounter">0 cells</div>
+  <div style="margin-left:auto;font-size:10.5px;color:var(--muted)" id="cellCtr">0 cells</div>
 </div>
 
 <!-- BODY -->
 <div class="app-body">
   <div class="nb-main">
-    <div class="notebook-wrap">
+    <div class="nb-wrap">
       <div class="notebook" id="notebook"></div>
     </div>
   </div>
-
-  <!-- RIGHT PANEL -->
-  <div class="right-panel">
+  <div class="rp">
     <div class="rp-tabs">
       <div class="rp-tab active" onclick="switchRp(this,'rpVars')">📦 Vars</div>
-      <div class="rp-tab" onclick="switchRp(this,'rpLegend')">🗺 Guide</div>
+      <div class="rp-tab" onclick="switchRp(this,'rpGuide')">🗺 Guide</div>
     </div>
     <div class="rp-panel active" id="rpVars">
-      <div class="rp-empty" id="varsEmpty">Run cells to see defined variables & DataFrames</div>
+      <div class="rp-empty" id="varsEmpty">Run cells to see defined variables &amp; DataFrames</div>
       <div id="varsList"></div>
     </div>
-    <div class="rp-panel" id="rpLegend">
+    <div class="rp-panel" id="rpGuide">
       <div class="rp-sec">Operation Types</div>
-      <div class="dag-legend">
-        <div class="leg-row"><div class="leg-dot" style="background:var(--t-color)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Transformation</div><div>Lazy — builds DAG only</div></div></div>
-        <div class="leg-row"><div class="leg-dot" style="background:var(--a-color)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Action</div><div>Triggers job execution</div></div></div>
-        <div class="leg-row"><div class="leg-dot" style="background:var(--s-color)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Wide / Shuffle</div><div>Data crosses partitions</div></div></div>
-        <div class="leg-row"><div class="leg-dot" style="background:var(--n-color)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Narrow</div><div>Within same partition</div></div></div>
-      </div>
+      <div class="leg-row"><div class="leg-dot" style="background:var(--tc)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Transformation</div><div>Lazy — builds DAG only</div></div></div>
+      <div class="leg-row"><div class="leg-dot" style="background:var(--ac)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Action</div><div>Triggers job execution</div></div></div>
+      <div class="leg-row"><div class="leg-dot" style="background:var(--sc)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Wide / Shuffle</div><div>Data crosses partitions</div></div></div>
+      <div class="leg-row"><div class="leg-dot" style="background:var(--nc)"></div><div><div style="color:var(--text);font-size:10.5px;font-weight:500">Narrow</div><div>Within same partition</div></div></div>
       <div class="rp-sec" style="margin-top:6px">Key Concepts</div>
       <div style="padding:0 12px 10px;font-size:10px;color:var(--muted);line-height:1.6;display:flex;flex-direction:column;gap:8px;">
-        <div><span style="color:var(--text)">Lazy Evaluation</span><br>Spark waits until an Action is called before executing any transformations.</div>
+        <div><span style="color:var(--text)">Lazy Evaluation</span><br>Spark waits until an Action is called before executing transformations.</div>
         <div><span style="color:var(--text)">DAG</span><br>Directed Acyclic Graph — Spark's internal plan of operations.</div>
-        <div><span style="color:var(--text)">Stage</span><br>A set of tasks with no shuffle in between. Shuffles create stage boundaries.</div>
+        <div><span style="color:var(--text)">Stage</span><br>Operations with no shuffle in between. Shuffles create stage boundaries.</div>
         <div><span style="color:var(--text)">Partition</span><br>A chunk of data processed by one task on one executor thread.</div>
         <div><span style="color:var(--text)">Catalyst</span><br>Spark's query optimizer that rewrites your plan for better performance.</div>
       </div>
@@ -429,513 +399,530 @@ kbd{background:var(--surface2);border:1px solid var(--border);border-radius:3px;
 </div>
 
 <!-- STATUS BAR -->
-<div class="statusbar">
+<div class="sbar-bottom">
   <span>⚡ SparkBook</span><div class="s-sep"></div>
   <span id="sbCells">0 cells</span><div class="s-sep"></div>
   <span id="sbStatus">Ready</span><div class="s-sep"></div>
-  <span><kbd>Shift+Enter</kbd> run+next · <kbd>Ctrl+Enter</kbd> run · <kbd>B</kbd> add cell · <kbd>DD</kbd> delete</span>
+  <span><kbd>Shift+Enter</kbd> run+next · <kbd>Ctrl+Enter</kbd> run · <kbd>B</kbd> add · <kbd>DD</kbd> delete</span>
 </div>
 
 <script>
-/* ─────────────────────────────────────
+'use strict';
+/* ════════════════════════════════════
    STATE
-───────────────────────────────────── */
-let cells=[], cellIdC=0, focusedId=null, execOrder=0, runningId=null;
-let sharedCtx={};
+════════════════════════════════════ */
+let cells=[], cellIdC=0, focId=null, execOrder=0, runningId=null, sharedCtx={};
+let currentNbId=null;
+const SK='sparkbook_nbs', AK='sparkbook_active', KK='sparkbook_apikey';
 
-/* ─────────────────────────────────────
-   CELL MODEL
-───────────────────────────────────── */
-function newCell(type='code',src=''){
-  return {id:++cellIdC,type,source:src,execNum:null,output:null,internals:null};
+/* ════════════════════════════════════
+   API KEY
+════════════════════════════════════ */
+function getKey(){ return localStorage.getItem(KK)||''; }
+function openKeyModal(msg){
+  document.getElementById('keyMsg').textContent=msg||'';
+  const k=getKey();
+  document.getElementById('keyInput').value=k?k.substring(0,12)+'…':'';
+  document.getElementById('keyModal').classList.add('open');
+  setTimeout(()=>document.getElementById('keyInput').focus(),120);
+}
+function closeKeyModal(){ document.getElementById('keyModal').classList.remove('open'); }
+function saveKey(){
+  const v=document.getElementById('keyInput').value.trim();
+  if(!v||v.endsWith('…')){ closeKeyModal(); return; }
+  if(!v.startsWith('sk-ant-')){ document.getElementById('keyMsg').textContent='⚠ Key should start with sk-ant-…'; return; }
+  localStorage.setItem(KK,v); closeKeyModal(); updateKeyUI(); toast('💾 API Key saved!');
+}
+function removeKey(){
+  if(!confirm('Remove API key? Cells won\'t run until you add it again.')) return;
+  localStorage.removeItem(KK); closeKeyModal(); updateKeyUI();
+}
+function updateKeyUI(){
+  const k=getKey(), dot=document.getElementById('apiDot'), lbl=document.getElementById('apiLabel');
+  if(k){ dot.style.background='var(--green)'; dot.style.boxShadow='0 0 5px var(--green)'; lbl.textContent='API Active'; }
+  else { dot.style.background='var(--red)'; dot.style.boxShadow='none'; lbl.textContent='No API Key'; }
 }
 
-/* ─────────────────────────────────────
-   RENDER
-───────────────────────────────────── */
+/* ════════════════════════════════════
+   TOAST
+════════════════════════════════════ */
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ════════════════════════════════════
+   PERSISTENCE
+════════════════════════════════════ */
+function allNbs(){ try{return JSON.parse(localStorage.getItem(SK)||'{}')}catch(e){return{}} }
+function saveAllNbs(d){ localStorage.setItem(SK,JSON.stringify(d)); }
+
+let saveTimer;
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(doSave,1400); }
+function doSave(){
+  if(!currentNbId) return;
+  flushTas();
+  const title=document.getElementById('nbTitle').value||'Untitled';
+  const d=allNbs();
+  d[currentNbId]={id:currentNbId,title,savedAt:Date.now(),
+    cells:cells.map(c=>({id:c.id,type:c.type,source:c.source,execNum:c.execNum,output:c.output,internals:c.internals})),
+    execOrder,sharedCtx,cellIdC};
+  saveAllNbs(d); localStorage.setItem(AK,currentNbId); toast('💾 Auto-saved');
+}
+
+function loadNb(id){
+  const d=allNbs(), nb=d[id]; if(!nb) return false;
+  currentNbId=id;
+  cells=nb.cells.map(c=>({...c}));
+  execOrder=nb.execOrder||0; sharedCtx=nb.sharedCtx||{}; cellIdC=nb.cellIdC||0;
+  document.getElementById('nbTitle').value=nb.title||'Untitled';
+  localStorage.setItem(AK,id);
+  renderNotebook(); renderVars(sharedCtx);
+  setTimeout(renderMdCells,80);
+  return true;
+}
+
+function newNb(){
+  currentNbId='nb_'+Date.now(); cellIdC=0; execOrder=0; sharedCtx={};
+  document.getElementById('nbTitle').value='Untitled Notebook';
+  loadDefaultCells(); closeNbModal(); renderVars({});
+}
+
+function deleteNb(id){
+  if(!confirm('Delete this notebook?')) return;
+  const d=allNbs(); delete d[id]; saveAllNbs(d);
+  if(currentNbId===id){ const ids=Object.keys(d); if(ids.length) loadNb(ids[ids.length-1]); else newNb(); }
+  openNbModal();
+}
+
+/* ════════════════════════════════════
+   NB MANAGER
+════════════════════════════════════ */
+function openNbModal(){
+  const d=allNbs(), entries=Object.values(d).sort((a,b)=>b.savedAt-a.savedAt);
+  document.getElementById('nbList').innerHTML=entries.length
+    ? entries.map(nb=>{
+        const dt=new Date(nb.savedAt);
+        const ds=dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+dt.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+        return `<div class="nb-item${nb.id===currentNbId?' active':''}" onclick="loadNb('${nb.id}');closeNbModal()">
+          <div class="nb-icon">📓</div>
+          <div class="nb-info"><div class="nb-iname">${escH(nb.title||'Untitled')}</div>
+          <div class="nb-imeta">${(nb.cells||[]).filter(c=>c.type==='code').length} code cells · ${ds}</div></div>
+          <div class="nb-iactions">
+            ${nb.id===currentNbId?'<span style="font-size:9px;color:var(--green);padding:2px 6px;background:rgba(52,211,153,.1);border-radius:3px">OPEN</span>':''}
+            <div class="nb-del" onclick="event.stopPropagation();deleteNb('${nb.id}')">🗑</div>
+          </div>
+        </div>`;
+      }).join('')
+    : '<div class="rp-empty">No saved notebooks yet.</div>';
+  document.getElementById('nbModal').classList.add('open');
+}
+function closeNbModal(){ document.getElementById('nbModal').classList.remove('open'); }
+
+function exportNb(){
+  flushTas();
+  const title=document.getElementById('nbTitle').value||'notebook';
+  const blob=new Blob([JSON.stringify({sparkbook_export:true,version:1,title,cells:cells.map(c=>({...c})),execOrder,sharedCtx,cellIdC},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=title.replace(/[^a-z0-9]/gi,'_').toLowerCase()+'.sparkbook.json'; a.click();
+}
+function importNb(){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='.json';
+  inp.onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    const r=new FileReader(); r.onload=ev=>{
+      try{
+        const data=JSON.parse(ev.target.result);
+        if(!data.sparkbook_export) throw new Error('Not a SparkBook file');
+        currentNbId='nb_'+Date.now();
+        cells=(data.cells||[]).map(c=>({...c}));
+        execOrder=data.execOrder||0; sharedCtx=data.sharedCtx||{}; cellIdC=data.cellIdC||0;
+        document.getElementById('nbTitle').value=data.title||'Imported';
+        renderNotebook(); renderVars(sharedCtx); doSave();
+        setTimeout(renderMdCells,80); toast('✅ Imported!');
+      }catch(err){ alert('Import failed: '+err.message); }
+    }; r.readAsText(f);
+  }; inp.click();
+}
+
+/* ════════════════════════════════════
+   CELL MODEL
+════════════════════════════════════ */
+function newCell(type,src){
+  return {id:++cellIdC,type:type||'code',source:src||'',execNum:null,output:null,internals:null};
+}
+function flushTas(){
+  cells.forEach(c=>{const ta=document.getElementById('ta-'+c.id);if(ta)c.source=ta.value;});
+}
+
+/* ════════════════════════════════════
+   RENDER NOTEBOOK
+════════════════════════════════════ */
 function renderNotebook(){
+  flushTas();
   const nb=document.getElementById('notebook');
   const sy=nb.parentElement.scrollTop;
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
   nb.innerHTML='';
-  cells.forEach((c,i)=>{nb.appendChild(mkAddRow(i));nb.appendChild(mkCellEl(c,i));});
+  cells.forEach((c,i)=>{ nb.appendChild(mkAddRow(i)); nb.appendChild(mkCell(c,i)); });
   nb.appendChild(mkAddRow(cells.length));
-  updateCounters();
+  updateCtrs();
   nb.parentElement.scrollTop=sy;
+  scheduleSave();
 }
 
 function mkAddRow(idx){
-  const d=document.createElement('div');
-  d.className='add-row';
+  const d=document.createElement('div'); d.className='add-row';
   d.innerHTML=`<div class="add-btn" onclick="addCell('code',${idx})">＋ Add Cell</div>`;
   return d;
 }
 
-function mkCellEl(cell,idx){
+function mkCell(cell,idx){
   const d=document.createElement('div');
-  d.className=`cell${cell.id===focusedId?' focused':''}${runningId===cell.id?' running':''}`;
-  d.id=`cell-${cell.id}`;
-  d.dataset.id=cell.id;
-
+  d.className='cell'+(cell.id===focId?' focused':'')+(runningId===cell.id?' running':'');
+  d.id='cell-'+cell.id; d.dataset.id=cell.id;
   const lines=(cell.source||'').split('\n').length;
   const lnos=Array.from({length:Math.max(lines,1)},(_,i)=>`<span>${i+1}</span>`).join('');
-  const numHtml=cell.execNum?`<div class="cell-num done">[${cell.execNum}]</div>`:(cell.type==='code'?`<div class="cell-num">[&nbsp;]</div>`:'');
-  const runHtml=cell.type==='code'?`<div class="run-icon" onclick="runCell(${cell.id})" title="Run">${runningId===cell.id?'⏳':'▶'}</div>`:`<div class="run-icon" style="opacity:.1">✦</div>`;
-
+  const numH=cell.execNum?`<div class="cnum done">[${cell.execNum}]</div>`:(cell.type==='code'?`<div class="cnum">[ ]</div>`:'');
+  const runH=cell.type==='code'?`<div class="run-icon" onclick="runCell(${cell.id})" title="Run">${runningId===cell.id?'⏳':'▶'}</div>`:`<div class="run-icon" style="opacity:.1">✦</div>`;
   const typeBar=cell.type==='code'
-    ?`<div class="cell-typebar"><div class="ctype active">Python</div><div class="ctype" onclick="convertCell(${cell.id},'markdown')">Markdown</div><div class="clang">PySpark 3.5</div></div>`
-    :`<div class="cell-typebar"><div class="ctype" onclick="convertCell(${cell.id},'code')">Python</div><div class="ctype active">Markdown</div><div class="clang">MD</div></div>`;
-
-  const mdHtml=cell.type==='markdown'&&cell.source
-    ?`<div class="cell-md-render visible" id="md-${cell.id}">${renderMd(cell.source)}</div>`
-    :`<div class="cell-md-render" id="md-${cell.id}"></div>`;
-
-  const editorStyle=(cell.type==='markdown'&&cell.source)?'style="display:none"':'';
-
-  // Output
-  const outHtml=cell.output
-    ?`<div class="cell-output visible" id="out-${cell.id}"><div class="cell-output-inner"><div class="cell-output-gutter"></div><div class="cell-output-body">${cell.output}</div></div></div>`
-    :`<div class="cell-output" id="out-${cell.id}"><div class="cell-output-inner"><div class="cell-output-gutter"></div><div class="cell-output-body"></div></div></div>`;
-
-  // Internals toggle + body
-  const intHtml=cell.internals?mkInternalsHtml(cell):'';
-
+    ?`<div class="ctypebar"><div class="ctype active">Python</div><div class="ctype" onclick="convertCell(${cell.id},'markdown')">Markdown</div><div class="clang">PySpark 3.5</div></div>`
+    :`<div class="ctypebar"><div class="ctype" onclick="convertCell(${cell.id},'code')">Python</div><div class="ctype active">Markdown</div><div class="clang">MD</div></div>`;
+  const mdH=cell.type==='markdown'&&cell.source
+    ?`<div class="cmd-render visible" id="md-${cell.id}">${renderMd(cell.source)}</div>`
+    :`<div class="cmd-render" id="md-${cell.id}"></div>`;
+  const ewStyle=(cell.type==='markdown'&&cell.source)?'style="display:none"':'';
+  const outH=cell.output
+    ?`<div class="cout visible" id="out-${cell.id}"><div class="cout-inner"><div class="cout-gutter"></div><div class="cout-body">${cell.output}</div></div></div>`
+    :`<div class="cout" id="out-${cell.id}"><div class="cout-inner"><div class="cout-gutter"></div><div class="cout-body"></div></div></div>`;
+  const intH=cell.internals?mkInternalsHtml(cell):'';
   d.innerHTML=`
     <div class="cell-inner">
-      <div class="cell-gutter" onclick="runCell(${cell.id})">${runHtml}${numHtml}</div>
-      <div class="cell-body">
+      <div class="cgutter" onclick="runCell(${cell.id})">${runH}${numH}</div>
+      <div class="cbody">
         ${typeBar}
-        <div class="cell-editor-wrap" id="ew-${cell.id}" ${editorStyle}>
-          <div class="cell-linenos" id="ln-${cell.id}">${lnos}</div>
-          <textarea class="cell-ta" id="ta-${cell.id}" spellcheck="false"
+        <div class="cew" id="ew-${cell.id}" ${ewStyle}>
+          <div class="clnos" id="ln-${cell.id}">${lnos}</div>
+          <textarea class="cta" id="ta-${cell.id}" spellcheck="false"
             placeholder="${cell.type==='code'?'# Write PySpark code here...':'Write markdown here...'}"
             rows="${Math.max(3,lines)}">${escA(cell.source)}</textarea>
         </div>
-        ${mdHtml}
+        ${mdH}
       </div>
-      <div class="cell-controls">
+      <div class="ccontrols">
         <div class="ctrl-btn" title="Up" onclick="moveCell(${cell.id},-1)">↑</div>
         <div class="ctrl-btn" title="Down" onclick="moveCell(${cell.id},1)">↓</div>
         <div class="ctrl-btn" title="Duplicate" onclick="dupCell(${cell.id})">⧉</div>
         <div class="ctrl-btn del" title="Delete" onclick="deleteCell(${cell.id})">✕</div>
       </div>
     </div>
-    ${outHtml}
-    ${intHtml}`;
-
+    ${outH}${intH}`;
   setTimeout(()=>{
-    const ta=document.getElementById(`ta-${cell.id}`);
-    if(!ta)return;
-    ta.addEventListener('focus',()=>setFocus(cell.id));
+    const ta=document.getElementById('ta-'+cell.id); if(!ta) return;
+    ta.addEventListener('focus',()=>setFoc(cell.id));
     ta.addEventListener('input',()=>autoResize(ta,cell.id));
     ta.addEventListener('keydown',e=>handleKey(e,cell.id));
-    ta.addEventListener('scroll',()=>{const ln=document.getElementById(`ln-${cell.id}`);if(ln)ln.scrollTop=ta.scrollTop;});
+    ta.addEventListener('scroll',()=>{ const ln=document.getElementById('ln-'+cell.id); if(ln) ln.scrollTop=ta.scrollTop; });
     autoResize(ta,cell.id);
   },0);
   return d;
 }
 
-/* ─────────────────────────────────────
-   INTERNALS HTML
-───────────────────────────────────── */
-function mkInternalsHtml(cell){
-  const inv=cell.internals;
-  const ops=inv.operations||[];
-  const stages=inv.stages||[];
-  const plan=inv.execution_plan||[];
-  const opts=inv.catalyst_optimizations||[];
+function renderMdCells(){
+  cells.forEach(c=>{
+    if(c.type==='markdown'&&c.source){
+      const md=document.getElementById('md-'+c.id), wrap=document.getElementById('ew-'+c.id);
+      if(md){ md.innerHTML=renderMd(c.source); md.classList.add('visible'); }
+      if(wrap) wrap.style.display='none';
+    }
+  });
+}
 
+/* ════════════════════════════════════
+   INTERNALS HTML
+════════════════════════════════════ */
+function mkInternalsHtml(cell){
+  const inv=cell.internals||{};
+  const ops=inv.operations||[], stages=inv.stages||[], plan=inv.execution_plan||[], opts=inv.catalyst_optimizations||[];
   const nT=ops.filter(o=>o.category==='transformation'||o.category==='narrow').length;
   const nA=ops.filter(o=>o.category==='action').length;
   const nS=ops.filter(o=>o.category==='shuffle').length;
+  const pillsH=(nT?`<span class="ipill t">${nT} transform</span>`:'')+
+               (nA?`<span class="ipill a">${nA} action</span>`:'')+
+               (nS?`<span class="ipill s">${nS} shuffle</span>`:'');
+  const cid=cell.id;
 
-  const pillsHtml=`
-    ${nT?`<span class="pill transform">${nT} transform</span>`:''}
-    ${nA?`<span class="pill action">${nA} action</span>`:''}
-    ${nS?`<span class="pill shuffle">${nS} shuffle</span>`:''}`;
-
-  // Pipeline tab
-  let pipeHtml=`
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-val" style="color:var(--t-color)">${nT}</div><div class="stat-key">TRANSFORMATIONS</div><div class="stat-sub">Lazy, build DAG</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--a-color)">${nA}</div><div class="stat-key">ACTIONS</div><div class="stat-sub">Trigger job</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--s-color)">${nS}</div><div class="stat-key">SHUFFLES</div><div class="stat-sub">Network moves</div></div>
-    </div>
-    <div class="concept-box">
-      <div class="cb-title">⚡ Lazy Evaluation</div>
-      <div class="cb-body">Spark builds a <strong>DAG</strong> as you chain transformations — no computation happens yet. Only when an <strong>Action</strong> (show, count, collect…) is called does Spark compile the DAG, optimize it with <strong>Catalyst</strong>, split into <strong>Stages</strong> separated by shuffles, and dispatch <strong>Tasks</strong> to executors.</div>
-    </div>
-    <div class="op-pipeline">`;
-
+  // Pipeline
+  let pipeH=`<div class="stats-row">
+    <div class="stat-card"><div class="stat-val" style="color:var(--tc)">${nT}</div><div class="stat-key">TRANSFORMATIONS</div><div class="stat-sub">Lazy, build DAG</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--ac)">${nA}</div><div class="stat-key">ACTIONS</div><div class="stat-sub">Trigger job</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--sc)">${nS}</div><div class="stat-key">SHUFFLES</div><div class="stat-sub">Network moves</div></div>
+  </div>
+  <div class="cbox"><div class="cbox-t">⚡ Lazy Evaluation</div>
+  <div class="cbox-b">Spark builds a <strong>DAG</strong> as you chain transformations — no computation yet. Only when an <strong>Action</strong> (show, count…) is called does Spark optimize with <strong>Catalyst</strong>, split into <strong>Stages</strong>, and dispatch <strong>Tasks</strong> to executors.</div></div>
+  <div class="op-pipeline">`;
   ops.forEach((op,i)=>{
     const cat=op.category||'transformation';
-    pipeHtml+=`
-    <div class="op-row" style="animation-delay:${i*.05}s">
-      <div class="op-connector">
-        <div class="op-line-seg${i===0?' first':''}"></div>
-        <div class="op-dot ${cat}"></div>
-        <div class="op-line-seg"></div>
-      </div>
+    pipeH+=`<div class="op-row" style="animation-delay:${i*.05}s">
+      <div class="op-conn"><div class="op-seg${i===0?' first':''}"></div><div class="op-dot ${cat}"></div><div class="op-seg"></div></div>
       <div class="op-card ${cat}" onclick="this.classList.toggle('expanded')">
-        <div class="op-header">
+        <div class="op-hdr">
           <span class="op-name">${escH(op.name)}</span>
           <span class="op-badge ${cat}">${escH(cat)}</span>
-          ${op.causes_shuffle?`<span class="shuffle-pill">⚡ shuffle</span>`:''}
-          <span class="op-line-ref">line ${op.line||'?'}</span>
+          ${op.causes_shuffle?'<span class="spill">⚡ shuffle</span>':''}
+          <span class="op-lref">line ${op.line||'?'}</span>
         </div>
-        <div class="op-summary">${escH(op.summary||'')}</div>
-        <div class="op-expand">
-          <div class="exp-row"><span class="exp-key">What it does</span><span class="exp-val">${escH(op.detail||op.summary||'')}</span></div>
-          <div class="exp-row"><span class="exp-key">Lazy / Eager</span><span class="exp-val ${cat==='action'?'red':'green'}">${cat==='action'?'⚡ Eager — triggers full job execution':'💤 Lazy — just updates the DAG'}</span></div>
-          ${op.causes_shuffle?`<div class="exp-row"><span class="exp-key">Shuffle cost</span><span class="exp-val purple">Data moves across the network. Creates a stage boundary — significant overhead.</span></div>`:''}
-          ${op.optimization_tip?`<div class="exp-row"><span class="exp-key">💡 Tip</span><span class="exp-val orange">${escH(op.optimization_tip)}</span></div>`:''}
-          ${op.spark_internal?`<div class="exp-row"><span class="exp-key">Internally</span><span class="exp-val">${escH(op.spark_internal)}</span></div>`:''}
+        <div class="op-sum">${escH(op.summary||'')}</div>
+        <div class="op-exp">
+          <div class="erow"><span class="ekey">What it does</span><span class="eval">${escH(op.detail||op.summary||'')}</span></div>
+          <div class="erow"><span class="ekey">Lazy/Eager</span><span class="eval ${cat==='action'?'red':'green'}">${cat==='action'?'⚡ Eager — triggers job execution':'💤 Lazy — just updates the DAG'}</span></div>
+          ${op.causes_shuffle?`<div class="erow"><span class="ekey">Shuffle cost</span><span class="eval purple">Data moves across network. Creates a stage boundary.</span></div>`:''}
+          ${op.optimization_tip?`<div class="erow"><span class="ekey">💡 Tip</span><span class="eval orange">${escH(op.optimization_tip)}</span></div>`:''}
+          ${op.spark_internal?`<div class="erow"><span class="ekey">Internally</span><span class="eval">${escH(op.spark_internal)}</span></div>`:''}
         </div>
-      </div>
-    </div>`;
+      </div></div>`;
   });
-  pipeHtml+=`</div>`;
+  pipeH+='</div>';
 
-  // Stages/DAG tab
-  const svgW=420,nodeW=120,nodeH=38,gapY=62;
-  const svgH=Math.max(80,stages.length*gapY+30);
-  let svgNodes='',svgEdges='';
+  // Stages/DAG
+  const svgW=420,nodeW=120,nodeH=38,gapY=62,svgH=Math.max(80,stages.length*gapY+30);
+  let svgN='',svgE='';
   stages.forEach((st,i)=>{
     const x=16,y=16+i*gapY,cx=x+nodeW/2,cy=y+nodeH/2;
-    const col=st.has_shuffle?'var(--s-color)':'var(--t-color)';
+    const col=st.has_shuffle?'var(--sc)':'var(--tc)';
     const fill=st.has_shuffle?'rgba(168,85,247,0.1)':'rgba(59,130,246,0.1)';
-    svgNodes+=`<rect x="${x}" y="${y}" width="${nodeW}" height="${nodeH}" rx="6" fill="${fill}" stroke="${col}" stroke-width="1.5"/>
+    svgN+=`<rect x="${x}" y="${y}" width="${nodeW}" height="${nodeH}" rx="6" fill="${fill}" stroke="${col}" stroke-width="1.5"/>
       <text x="${cx}" y="${y+14}" text-anchor="middle" fill="${col}" font-size="9.5" font-weight="700" font-family="JetBrains Mono,monospace">Stage ${st.id}</text>
       <text x="${cx}" y="${y+26}" text-anchor="middle" fill="#6a8aaa" font-size="8.5" font-family="JetBrains Mono,monospace">${st.tasks||1} tasks · ${st.has_shuffle?'wide':'narrow'}</text>`;
-    const parts=Math.min(st.partitions||3,3);
-    for(let p=0;p<parts;p++){
-      const px=x+nodeW+40,py=y+4+(p*12);
-      svgNodes+=`<rect x="${px}" y="${py}" width="36" height="10" rx="2" fill="rgba(34,211,238,0.08)" stroke="var(--cyan)" stroke-width="1"/>
+    const pts=Math.min(st.partitions||3,3);
+    for(let p=0;p<pts;p++){
+      const px=x+nodeW+40,py=y+4+p*12;
+      svgN+=`<rect x="${px}" y="${py}" width="36" height="10" rx="2" fill="rgba(34,211,238,0.08)" stroke="var(--cyan)" stroke-width="1"/>
         <text x="${px+18}" y="${py+8}" text-anchor="middle" fill="var(--cyan)" font-size="7" font-family="JetBrains Mono,monospace">P${p}</text>`;
-      svgEdges+=`<line x1="${x+nodeW}" y1="${cy}" x2="${px}" y2="${py+5}" stroke="var(--dim)" stroke-width="1"/>`;
+      svgE+=`<line x1="${x+nodeW}" y1="${cy}" x2="${px}" y2="${py+5}" stroke="var(--dim)" stroke-width="1"/>`;
     }
     if(i>0){
-      const pcy=16+(i-1)*gapY+nodeH;
-      const prev=stages[i-1];
-      const ec=prev.has_shuffle?'var(--s-color)':'var(--dim)';
-      const da=prev.has_shuffle?'5,3':'none';
-      svgEdges+=`<line x1="${cx}" y1="${pcy}" x2="${cx}" y2="${y}" stroke="${ec}" stroke-width="${prev.has_shuffle?2:1.5}" stroke-dasharray="${da}"/>
+      const pcy=16+(i-1)*gapY+nodeH,prev=stages[i-1];
+      const ec=prev.has_shuffle?'var(--sc)':'var(--dim)',da=prev.has_shuffle?'5,3':'none';
+      svgE+=`<line x1="${cx}" y1="${pcy}" x2="${cx}" y2="${y}" stroke="${ec}" stroke-width="${prev.has_shuffle?2:1.5}" stroke-dasharray="${da}"/>
         <polygon points="${cx},${y} ${cx-4},${y-6} ${cx+4},${y-6}" fill="${ec}"/>`;
-      if(prev.has_shuffle)svgEdges+=`<text x="${cx+6}" y="${pcy+(y-pcy)/2+4}" fill="var(--s-color)" font-size="8" font-family="JetBrains Mono,monospace">shuffle</text>`;
+      if(prev.has_shuffle) svgE+=`<text x="${cx+6}" y="${pcy+(y-pcy)/2+4}" fill="var(--sc)" font-size="8" font-family="JetBrains Mono,monospace">shuffle</text>`;
     }
   });
-
-  let dagHtml=`
-    <div class="concept-box">
-      <div class="cb-title">📐 Stages & Shuffles</div>
-      <div class="cb-body">Each <strong>Stage</strong> is a maximal pipeline of operations that can run without a shuffle. When Spark needs to redistribute data across partitions (groupBy, join, orderBy), it creates a new stage. Tasks within a stage run <strong>in parallel</strong>.</div>
-    </div>
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-val" style="color:var(--spark)">${(inv.jobs||[{id:0}]).length}</div><div class="stat-key">JOBS</div><div class="stat-sub">From actions</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--t-color)">${stages.length}</div><div class="stat-key">STAGES</div><div class="stat-sub">Shuffle-separated</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--cyan)">${stages.reduce((a,s)=>a+(s.tasks||1),0)}</div><div class="stat-key">TASKS</div><div class="stat-sub">Parallel units</div></div>
-    </div>
-    <div class="dag-svg-wrap">
-      <svg class="dag-svg" width="${svgW}" height="${svgH}" style="overflow:visible">${svgEdges}${svgNodes}</svg>
-    </div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 10px;font-size:9.5px;color:var(--muted)">
-      <span><span style="display:inline-block;width:8px;height:8px;background:rgba(59,130,246,.4);border-radius:2px;margin-right:3px;vertical-align:middle"></span>Narrow</span>
-      <span><span style="display:inline-block;width:8px;height:8px;background:rgba(168,85,247,.4);border-radius:2px;margin-right:3px;vertical-align:middle"></span>Wide/Shuffle</span>
-      <span><span style="display:inline-block;width:12px;height:8px;border-top:2px dashed var(--s-color);margin-right:3px;vertical-align:middle"></span>Stage boundary</span>
-    </div>
-    <div class="stage-list">`;
+  let dagH=`<div class="cbox"><div class="cbox-t">📐 Stages & Shuffles</div>
+  <div class="cbox-b">A <strong>Stage</strong> is a maximal pipeline without a shuffle. When Spark needs to redistribute data (groupBy, join, orderBy), it creates a new stage. Tasks within a stage run <strong>in parallel</strong>.</div></div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val" style="color:var(--spark)">${(inv.jobs||[{id:0}]).length}</div><div class="stat-key">JOBS</div><div class="stat-sub">From actions</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--tc)">${stages.length}</div><div class="stat-key">STAGES</div><div class="stat-sub">Shuffle-separated</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--cyan)">${stages.reduce((a,s)=>a+(s.tasks||1),0)}</div><div class="stat-key">TASKS</div><div class="stat-sub">Parallel units</div></div>
+  </div>
+  <div class="dag-wrap"><svg width="${svgW}" height="${svgH}" style="overflow:visible">${svgE}${svgN}</svg></div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 10px;font-size:9.5px;color:var(--muted)">
+    <span><span style="display:inline-block;width:8px;height:8px;background:rgba(59,130,246,.4);border-radius:2px;margin-right:3px;vertical-align:middle"></span>Narrow</span>
+    <span><span style="display:inline-block;width:8px;height:8px;background:rgba(168,85,247,.4);border-radius:2px;margin-right:3px;vertical-align:middle"></span>Wide/Shuffle</span>
+  </div>
+  <div class="stage-list">`;
   stages.forEach(st=>{
-    const pct=Math.min(100,(st.tasks||1)*25);
-    dagHtml+=`<div class="stage-card">
-      <div class="stage-hdr">
-        <span class="stage-title">Stage ${st.id} ${st.has_shuffle?'<span style="color:var(--s-color);font-size:9px">(wide)</span>':'<span style="color:var(--n-color);font-size:9px">(narrow)</span>'}</span>
-        <span class="stage-meta">${st.tasks||1} tasks · ${st.partitions||3} partitions</span>
-      </div>
-      <div class="stage-ops">${(st.operations||[]).map(o=>`<span class="stage-op-pill">${escH(o)}</span>`).join('')}</div>
+    dagH+=`<div class="stage-card">
+      <div class="stage-hdr"><span class="stage-title">Stage ${st.id} ${st.has_shuffle?'<span style="color:var(--sc);font-size:9px">(wide)</span>':'<span style="color:var(--nc);font-size:9px">(narrow)</span>'}</span>
+      <span class="stage-meta">${st.tasks||1} tasks · ${st.partitions||3} partitions</span></div>
+      <div class="stage-ops">${(st.operations||[]).map(o=>`<span class="sop-pill">${escH(o)}</span>`).join('')}</div>
       <div class="stage-desc">${escH(st.description||'')}</div>
-      <div class="stage-bar-wrap"><div class="stage-bar" style="--w:${pct}%"></div></div>
+      <div class="sbar-wrap"><div class="sbar" style="--w:${Math.min(100,(st.tasks||1)*25)}%"></div></div>
     </div>`;
   });
-  dagHtml+=`</div>`;
+  dagH+='</div>';
 
-  // Exec plan tab
-  const typeMap={Scan:'scan',Project:'project',Filter:'filter',HashAggregate:'agg',SortAggregate:'agg',Sort:'sort',Exchange:'exchange',Join:'join',BroadcastHashJoin:'join',SortMergeJoin:'join',Collect:'action',LocalTableScan:'scan'};
-  function pClass(name){for(const[k,v]of Object.entries(typeMap)){if(name.includes(k))return`p-${v}`;}return'p-other';}
-
-  let planHtml=`
-    <div class="concept-box">
-      <div class="cb-title">🧠 Catalyst Optimizer</div>
-      <div class="cb-body">Your code goes through: <strong>Analysis</strong> → <strong>Logical Optimization</strong> (predicate pushdown, constant folding) → <strong>Physical Planning</strong> (join strategy) → <strong>Code Generation</strong> (JVM bytecode).</div>
-    </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:10px;overflow-x:auto;">
-      <div style="font-size:9.5px;color:var(--muted);margin-bottom:6px;font-weight:600;letter-spacing:.8px;">PHYSICAL PLAN (bottom-up)</div>
-      <div class="plan-tree">`;
+  // Plan
+  const typeMap={Scan:'scan',Project:'project',Filter:'filter',HashAggregate:'agg',SortAggregate:'agg',Sort:'sort',Exchange:'exchange',Join:'join',BroadcastHashJoin:'join',SortMergeJoin:'join',LocalTableScan:'scan'};
+  function pCls(n){for(const[k,v]of Object.entries(typeMap)){if(n.includes(k))return 'p-'+v;}return 'p-other';}
+  let planH=`<div class="cbox"><div class="cbox-t">🧠 Catalyst Optimizer</div>
+  <div class="cbox-b">Your code: <strong>Analysis</strong> → <strong>Logical Optimization</strong> (predicate pushdown) → <strong>Physical Planning</strong> (join strategy) → <strong>Code Generation</strong> (JVM bytecode).</div></div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:10px 12px;margin-bottom:10px;overflow-x:auto;">
+  <div style="font-size:9.5px;color:var(--muted);margin-bottom:6px;font-weight:600;letter-spacing:.8px;">PHYSICAL PLAN (bottom-up)</div>
+  <div class="plan-tree">`;
   plan.forEach(node=>{
     const ind='&nbsp;'.repeat((node.depth||0)*4);
     const pre=(node.depth||0)>0?'├─ ':'';
-    planHtml+=`<div class="plan-node"><span style="color:var(--dim)">${ind}${pre}</span><span class="${pClass(node.name||'')}">${escH(node.name||'')}</span>${node.details?`<span class="p-detail"> [${escH(node.details)}]</span>`:''}</div>`;
+    planH+=`<div class="plan-node"><span style="color:var(--dim)">${ind}${pre}</span><span class="${pCls(node.name||'')}">${escH(node.name||'')}</span>${node.details?`<span class="p-detail"> [${escH(node.details)}]</span>`:''}</div>`;
   });
-  planHtml+=`</div></div>`;
-  planHtml+=`<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:9.5px">
+  planH+=`</div></div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:9.5px">
     <span style="color:var(--green)">■ Scan</span><span style="color:var(--blue)">■ Project</span><span style="color:var(--cyan)">■ Filter</span>
-    <span style="color:var(--spark)">■ Aggregate</span><span style="color:var(--pink)">■ Join</span><span style="color:var(--accent2)">■ Sort</span>
-    <span style="color:var(--s-color)">■ Exchange(Shuffle)</span>
+    <span style="color:var(--spark)">■ Aggregate</span><span style="color:var(--pink)">■ Join</span><span style="color:var(--accent2)">■ Sort</span><span style="color:var(--sc)">■ Exchange</span>
   </div>`;
   if(opts.length){
-    planHtml+=`<div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Catalyst Optimizations Applied</div>`;
-    opts.forEach(o=>{
-      planHtml+=`<div class="opt-item"><span class="opt-check">✓</span><div><div class="opt-name">${escH(o.name||'')}</div><div class="opt-desc">${escH(o.description||'')}</div></div></div>`;
-    });
+    planH+=`<div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Catalyst Optimizations Applied</div>`;
+    opts.forEach(o=>{ planH+=`<div class="opt-item"><span class="opt-check">✓</span><div><div class="opt-name">${escH(o.name||'')}</div><div class="opt-desc">${escH(o.description||'')}</div></div></div>`; });
   }
   if(inv.rdd_lineage){
-    planHtml+=`<div style="margin-top:8px"><div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;margin-bottom:5px">RDD Lineage</div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;line-height:1.8">${escH(inv.rdd_lineage)}</div></div>`;
+    planH+=`<div style="margin-top:8px"><div style="font-size:9px;font-weight:700;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;margin-bottom:5px">RDD Lineage</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:10.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;line-height:1.8">${escH(inv.rdd_lineage)}</div></div>`;
   }
 
-  const cid=cell.id;
   return `
-    <div class="int-toggle-bar" id="itb-${cid}" onclick="toggleInt(${cid})">
-      <div class="int-toggle-label">
-        🔬 <span style="color:var(--text2)">Spark Internals</span>
-        ${pillsHtml}
-      </div>
-      <span class="int-toggle-chevron">▼</span>
+    <div class="int-toggle" id="itg-${cid}" onclick="toggleInt(${cid})">
+      <div class="int-toggle-label">🔬 <span style="color:var(--text2)">Spark Internals</span> ${pillsH}</div>
+      <span class="int-chev">▼</span>
     </div>
     <div class="int-body" id="ib-${cid}">
       <div class="int-tabs">
-        <div class="int-tab active" onclick="switchIntTab(${cid},this,'itp-pipe-${cid}')">⚡ Pipeline</div>
-        <div class="int-tab" onclick="switchIntTab(${cid},this,'itp-dag-${cid}')">📊 Stages &amp; DAG</div>
-        <div class="int-tab" onclick="switchIntTab(${cid},this,'itp-plan-${cid}')">📋 Exec Plan</div>
+        <div class="itab active" onclick="switchItab(${cid},this,'itp-pipe-${cid}')">⚡ Pipeline</div>
+        <div class="itab" onclick="switchItab(${cid},this,'itp-dag-${cid}')">📊 Stages &amp; DAG</div>
+        <div class="itab" onclick="switchItab(${cid},this,'itp-plan-${cid}')">📋 Exec Plan</div>
       </div>
-      <div class="int-tab-panel active" id="itp-pipe-${cid}">${pipeHtml}</div>
-      <div class="int-tab-panel" id="itp-dag-${cid}">${dagHtml}</div>
-      <div class="int-tab-panel" id="itp-plan-${cid}">${planHtml}</div>
+      <div class="itp active" id="itp-pipe-${cid}">${pipeH}</div>
+      <div class="itp" id="itp-dag-${cid}">${dagH}</div>
+      <div class="itp" id="itp-plan-${cid}">${planH}</div>
     </div>`;
 }
-
 function toggleInt(cid){
-  const bar=document.getElementById(`itb-${cid}`);
-  const body=document.getElementById(`ib-${cid}`);
-  if(!bar||!body)return;
-  bar.classList.toggle('open');
-  body.classList.toggle('open');
+  document.getElementById('itg-'+cid)?.classList.toggle('open');
+  document.getElementById('ib-'+cid)?.classList.toggle('open');
 }
-function switchIntTab(cid,el,panelId){
-  const body=document.getElementById(`ib-${cid}`);
-  if(!body)return;
-  body.querySelectorAll('.int-tab').forEach(t=>t.classList.remove('active'));
-  body.querySelectorAll('.int-tab-panel').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  const panel=document.getElementById(panelId);
-  if(panel)panel.classList.add('active');
+function switchItab(cid,el,pid){
+  document.getElementById('ib-'+cid)?.querySelectorAll('.itab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('ib-'+cid)?.querySelectorAll('.itp').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active'); document.getElementById(pid)?.classList.add('active');
 }
 
-/* ─────────────────────────────────────
-   RESIZE / FOCUS / KEY
-───────────────────────────────────── */
+/* ════════════════════════════════════
+   EDITOR EVENTS
+════════════════════════════════════ */
 function autoResize(ta,cid){
-  const lines=ta.value.split('\n').length;
-  ta.rows=Math.max(3,lines);
-  const ln=document.getElementById(`ln-${cid}`);
-  if(ln)ln.innerHTML=Array.from({length:lines},(_,i)=>`<span>${i+1}</span>`).join('');
+  const lines=ta.value.split('\n').length; ta.rows=Math.max(3,lines);
+  const ln=document.getElementById('ln-'+cid);
+  if(ln) ln.innerHTML=Array.from({length:lines},(_,i)=>`<span>${i+1}</span>`).join('');
 }
-function setFocus(id){
-  focusedId=id;
-  document.querySelectorAll('.cell').forEach(el=>el.classList.remove('focused'));
-  const el=document.getElementById(`cell-${id}`);
-  if(el)el.classList.add('focused');
+function setFoc(id){
+  focId=id;
+  document.querySelectorAll('.cell').forEach(e=>e.classList.remove('focused'));
+  document.getElementById('cell-'+id)?.classList.add('focused');
 }
-function getFocusedIdx(){const i=cells.findIndex(c=>c.id===focusedId);return i>=0?i+1:cells.length;}
+function getFocIdx(){ const i=cells.findIndex(c=>c.id===focId); return i>=0?i+1:cells.length; }
+// alias for toolbar button onclick
+function getFocIdx(){ const i=cells.findIndex(c=>c.id===focId); return i>=0?i+1:cells.length; }
 
 let lastD=0;
 document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='TEXTAREA')return;
-  if(e.key==='b'||e.key==='B')addCell('code',getFocusedIdx());
-  if(e.key==='d'||e.key==='D'){const n=Date.now();if(n-lastD<500)deleteFocused();lastD=n;}
+  if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT') return;
+  if(e.key==='b'||e.key==='B') addCell('code',getFocIdx());
+  if(e.key==='d'||e.key==='D'){ const n=Date.now(); if(n-lastD<500) delFocused(); lastD=n; }
+  if(e.key==='Escape'){ closeKeyModal(); closeNbModal(); }
 });
 function handleKey(e,cid){
   const ta=e.target;
-  if(e.key==='Tab'){e.preventDefault();const s=ta.selectionStart;ta.value=ta.value.substring(0,s)+'    '+ta.value.substring(ta.selectionEnd);ta.selectionStart=ta.selectionEnd=s+4;autoResize(ta,cid);}
-  if(e.key==='Enter'&&e.shiftKey){e.preventDefault();saveTa(cid);runCell(cid);const i=cells.findIndex(c=>c.id===cid);if(i<cells.length-1){const nx=cells[i+1];setTimeout(()=>{const t=document.getElementById(`ta-${nx.id}`);if(t){t.focus();setFocus(nx.id);}},60);}else addCell('code');}
-  if(e.key==='Enter'&&e.ctrlKey){e.preventDefault();saveTa(cid);runCell(cid);}
+  if(e.key==='Tab'){ e.preventDefault(); const s=ta.selectionStart; ta.value=ta.value.substring(0,s)+'    '+ta.value.substring(ta.selectionEnd); ta.selectionStart=ta.selectionEnd=s+4; autoResize(ta,cid); }
+  if(e.key==='Enter'&&e.shiftKey){ e.preventDefault(); saveTa(cid); runCell(cid);
+    const i=cells.findIndex(c=>c.id===cid);
+    if(i<cells.length-1){ const nx=cells[i+1]; setTimeout(()=>{ const t=document.getElementById('ta-'+nx.id); if(t){t.focus();setFoc(nx.id);} },60); }
+    else addCell('code'); }
+  if(e.key==='Enter'&&e.ctrlKey){ e.preventDefault(); saveTa(cid); runCell(cid); }
 }
-function saveTa(cid){const ta=document.getElementById(`ta-${cid}`);const c=cells.find(x=>x.id===cid);if(ta&&c)c.source=ta.value;}
+function saveTa(cid){ const ta=document.getElementById('ta-'+cid),c=cells.find(x=>x.id===cid); if(ta&&c) c.source=ta.value; }
 
-/* ─────────────────────────────────────
-   CELL OPS
-───────────────────────────────────── */
-function addCell(type='code',at=null){
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
-  const cell=newCell(type,type==='code'?'':'## New Section\nWrite your notes here.');
-  if(at===null||at>=cells.length)cells.push(cell);else cells.splice(at,0,cell);
-  focusedId=cell.id;renderNotebook();
-  setTimeout(()=>{const ta=document.getElementById(`ta-${cell.id}`);if(ta){ta.focus();}},60);
+/* ════════════════════════════════════
+   CELL OPERATIONS
+════════════════════════════════════ */
+function addCell(type,at){
+  flushTas();
+  const cell=newCell(type,type==='code'?'':'## New Section\nWrite notes here.');
+  if(at==null||at>=cells.length) cells.push(cell); else cells.splice(at,0,cell);
+  focId=cell.id; renderNotebook();
+  setTimeout(()=>{ const ta=document.getElementById('ta-'+cell.id); if(ta) ta.focus(); },60);
 }
 function deleteCell(id){
-  if(cells.length<=1)return;
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
-  const i=cells.findIndex(c=>c.id===id);cells.splice(i,1);
-  if(focusedId===id)focusedId=cells[Math.max(0,i-1)]?.id||null;
+  if(cells.length<=1) return; flushTas();
+  const i=cells.findIndex(c=>c.id===id); cells.splice(i,1);
+  if(focId===id) focId=cells[Math.max(0,i-1)]?.id||null;
   renderNotebook();
 }
-function deleteFocused(){if(focusedId)deleteCell(focusedId);}
+function delFocused(){ if(focId) deleteCell(focId); }
 function moveCell(id,dir){
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
-  const i=cells.findIndex(c=>c.id===id),ni=i+dir;
-  if(ni<0||ni>=cells.length)return;
-  [cells[i],cells[ni]]=[cells[ni],cells[i]];renderNotebook();
+  flushTas(); const i=cells.findIndex(c=>c.id===id),ni=i+dir;
+  if(ni<0||ni>=cells.length) return;
+  [cells[i],cells[ni]]=[cells[ni],cells[i]]; renderNotebook();
 }
-function moveFocused(dir){if(focusedId)moveCell(focusedId,dir);}
+function moveFoc(dir){ if(focId) moveCell(focId,dir); }
 function dupCell(id){
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
-  const i=cells.findIndex(c=>c.id===id),o=cells[i],dup=newCell(o.type,o.source);cells.splice(i+1,0,dup);renderNotebook();
+  flushTas(); const i=cells.findIndex(c=>c.id===id),o=cells[i],dup=newCell(o.type,o.source);
+  cells.splice(i+1,0,dup); renderNotebook();
 }
 function convertCell(id,type){
-  const c=cells.find(x=>x.id===id);const ta=document.getElementById(`ta-${id}`);if(ta)c.source=ta.value;
-  if(c){c.type=type;c.output=null;c.internals=null;}renderNotebook();
+  const c=cells.find(x=>x.id===id); const ta=document.getElementById('ta-'+id); if(ta) c.source=ta.value;
+  if(c){c.type=type;c.output=null;c.internals=null;} renderNotebook();
 }
-function runFocused(){if(focusedId){saveTa(focusedId);runCell(focusedId);}}
-function updateCounters(){const n=cells.length;document.getElementById('cellCounter').textContent=`${n} cell${n!==1?'s':''}`;document.getElementById('sbCells').textContent=`${n} cells`;}
-function clearAllOutputs(){cells.forEach(c=>{c.output=null;c.execNum=null;c.internals=null;});execOrder=0;sharedCtx={};renderNotebook();renderVars({});document.getElementById('sbStatus').textContent='Cleared';scheduleSave();}
-
+function runFocused(){ if(focId){saveTa(focId);runCell(focId);} }
+function updateCtrs(){ const n=cells.length; document.getElementById('cellCtr').textContent=`${n} cell${n!==1?'s':''}`; document.getElementById('sbCells').textContent=`${n} cells`; }
+function clearAllOutputs(){ cells.forEach(c=>{c.output=null;c.execNum=null;c.internals=null;}); execOrder=0; sharedCtx={}; renderNotebook(); renderVars({}); document.getElementById('sbStatus').textContent='Cleared'; scheduleSave(); }
 async function runAll(){
-  const btn=document.getElementById('runAllBtn');btn.disabled=true;btn.textContent='⏳ Running…';
-  sharedCtx={};execOrder=0;
-  for(const c of cells){if(c.type==='code'){saveTa(c.id);await runCell(c.id);}}
-  btn.disabled=false;btn.textContent='▶▶ Run All Cells';
+  const btn=document.getElementById('runAllBtn'); btn.disabled=true; btn.textContent='⏳ Running…';
+  sharedCtx={}; execOrder=0;
+  for(const c of cells){ if(c.type==='code'){ saveTa(c.id); await runCell(c.id); } }
+  btn.disabled=false; btn.textContent='▶▶ Run All Cells';
 }
 
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    RUN CELL
-───────────────────────────────────── */
+════════════════════════════════════ */
 async function runCell(cellId){
-  const cell=cells.find(c=>c.id===cellId);
-  if(!cell)return;
+  const cell=cells.find(c=>c.id===cellId); if(!cell) return;
   if(cell.type==='markdown'){
-    const md=document.getElementById(`md-${cellId}`);const wrap=document.getElementById(`ew-${cellId}`);
-    if(md){md.innerHTML=renderMd(cell.source);md.classList.add('visible');}
-    if(wrap)wrap.style.display='none';return;
+    const md=document.getElementById('md-'+cellId),wrap=document.getElementById('ew-'+cellId);
+    if(md){md.innerHTML=renderMd(cell.source);md.classList.add('visible');} if(wrap) wrap.style.display='none'; return;
   }
-  if(!cell.source.trim())return;
+  if(!cell.source.trim()) return;
+  const apiKey=getKey();
+  if(!apiKey){ openKeyModal('⚠ Add your API key to run cells.'); return; }
 
   runningId=cellId;
-  const outDiv=document.getElementById(`out-${cellId}`);
-  const outBody=outDiv?.querySelector('.cell-output-body');
-  if(outDiv)outDiv.classList.add('visible');
-  if(outBody)outBody.innerHTML=`<div class="out-loader"><div class="out-loader-dots"><span></span><span></span><span></span></div><span>Executing…</span></div>`;
-  const cellEl=document.getElementById(`cell-${cellId}`);
+  const outDiv=document.getElementById('out-'+cellId), outBody=outDiv?.querySelector('.cout-body');
+  if(outDiv) outDiv.classList.add('visible');
+  if(outBody) outBody.innerHTML=`<div class="loader"><div class="ldots"><span></span><span></span><span></span></div><span>Executing…</span></div>`;
+  const cellEl=document.getElementById('cell-'+cellId);
   if(cellEl){cellEl.classList.add('running');const ri=cellEl.querySelector('.run-icon');if(ri)ri.textContent='⏳';}
-  document.getElementById('sbStatus').textContent='Running cell…';
+  document.getElementById('sbStatus').textContent='Running…';
 
   const prevSrc=cells.slice(0,cells.findIndex(c=>c.id===cellId)).filter(c=>c.type==='code'&&c.source.trim()).map(c=>c.source).join('\n\n');
-  const ctxSummary=Object.entries(sharedCtx).map(([k,v])=>`${k}: ${v}`).join('\n');
+  const ctxS=Object.entries(sharedCtx).map(([k,v])=>`${k}: ${v}`).join('\n');
 
-  const sysPrompt=`You are a PySpark notebook kernel and internals analyzer. You execute cells one at a time with shared state (like Databricks).
+  const sys=`You are a PySpark notebook kernel and internals analyzer. Execute cells one at a time with shared state (like Databricks).
 
 Previously executed cells (in scope):
 \`\`\`python
 ${prevSrc||'# (none)'}
 \`\`\`
-Currently defined variables: ${ctxSummary||'(none)'}
+Currently defined variables: ${ctxS||'(none)'}
 
 Return ONLY a valid JSON object (no markdown, no backticks) with EXACTLY this structure:
-{
-  "output": {
-    "print_output": "",
-    "dataframes": [{"label":"","columns":[],"rows":[],"truncated":false,"total_rows":0}],
-    "schema": [{"name":"","type":"","nullable":true}],
-    "error": null,
-    "warnings": []
-  },
-  "new_variables": [{"name":"df","type":"DataFrame","description":"4-row employees DataFrame"}],
-  "internals": {
-    "operations": [
-      {
-        "name": "createDataFrame",
-        "category": "transformation",
-        "line": 3,
-        "summary": "Creates a distributed DataFrame from local Python data",
-        "detail": "Distributes the Python list across partitions in the Spark cluster. The driver serializes the data and sends it to executors.",
-        "causes_shuffle": false,
-        "optimization_tip": null,
-        "spark_internal": "Creates a ParallelCollectionRDD then maps it to a DataFrame schema"
-      }
-    ],
-    "stages": [
-      {"id":0,"has_shuffle":false,"tasks":4,"partitions":4,"operations":["createDataFrame","show"],"description":"Reads data and applies narrow transformations, then collects to driver for display"}
-    ],
-    "jobs": [{"id":0,"triggered_by":"show()","stages":[0]}],
-    "execution_plan": [
-      {"depth":0,"name":"CollectLimit","details":"limit=20"},
-      {"depth":1,"name":"LocalTableScan","details":"name, age, dept"}
-    ],
-    "catalyst_optimizations": [
-      {"name":"Constant Folding","description":"Evaluates constant expressions at compile time"}
-    ],
-    "rdd_lineage": "MapPartitionsRDD[2] -> ParallelCollectionRDD[1]"
-  }
-}
+{"output":{"print_output":"","dataframes":[{"label":"","columns":[],"rows":[],"truncated":false,"total_rows":0}],"schema":[{"name":"","type":"","nullable":true}],"error":null,"warnings":[]},"new_variables":[{"name":"df","type":"DataFrame","description":"4-row employees DataFrame"}],"internals":{"operations":[{"name":"createDataFrame","category":"transformation","line":3,"summary":"Creates a distributed DataFrame","detail":"Distributes data across partitions","causes_shuffle":false,"optimization_tip":null,"spark_internal":"Creates ParallelCollectionRDD"}],"stages":[{"id":0,"has_shuffle":false,"tasks":4,"partitions":4,"operations":["createDataFrame","show"],"description":"Reads data and collects to driver"}],"jobs":[{"id":0,"triggered_by":"show()","stages":[0]}],"execution_plan":[{"depth":0,"name":"CollectLimit","details":"limit=20"},{"depth":1,"name":"LocalTableScan","details":"name, age"}],"catalyst_optimizations":[{"name":"Constant Folding","description":"Evaluates constant expressions at compile time"}],"rdd_lineage":"MapPartitionsRDD[2] -> ParallelCollectionRDD[1]"}}
 
-CATEGORY RULES:
-- "init": SparkSession, imports
-- "narrow": filter, select, withColumn, map, union, sample, limit — no shuffle
-- "transformation": general catch-all transformations
-- "shuffle": groupBy, join, orderBy/sort, repartition, distinct(all cols), coalesce(if increases partitions), reduceByKey
-- "action": show, count, collect, first, take, write, save, foreach, printSchema, createOrReplaceTempView
+CATEGORIES: init=SparkSession/imports, narrow=filter/select/withColumn/map, shuffle=groupBy/join/orderBy/repartition/distinct, action=show/count/collect/first/take/write/printSchema, transformation=everything else.
+RULES: List every API call. groupBy=shuffle, agg=transformation, orderBy=shuffle. Each shuffle = new stage. tasks=4 for small data, 200 after shuffle. execution_plan bottom-up. Return ONLY the JSON.`;
 
-IMPORTANT:
-- List EVERY API call as a separate operation in code order
-- groupBy() = shuffle, .agg() = transformation, orderBy after agg = shuffle
-- For joins: the join itself = shuffle category
-- stages: each shuffle creates a NEW stage. First stage id=0.
-- tasks default 4 for small data; 200 after shuffles
-- execution_plan must be bottom-up (deepest first). Include Exchange node for every shuffle.
-- List at least 1 catalyst_optimization (up to 4)
-- Return ONLY the JSON.`;
-
-  const apiKey=localStorage.getItem('sparkbook_apikey')||'';
-  if(!apiKey){
-    showKeyModal();
-    runningId=null;
-    if(cellEl){cellEl.classList.remove('running');const ri=cellEl.querySelector('.run-icon');if(ri)ri.textContent='▶';}
-    document.getElementById('sbStatus').textContent='API key required';
-    return;
-  }
   try{
     const resp=await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "x-api-key":apiKey,
-        "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-direct-browser-access":"true"
-      },
-      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:3000,system:sysPrompt,
-        messages:[{role:"user",content:`Execute this cell:\n\`\`\`python\n${cell.source}\n\`\`\``}]})
+      headers:{"Content-Type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:3000,system:sys,messages:[{role:"user",content:`Execute this cell:\n\`\`\`python\n${cell.source}\n\`\`\``}]})
     });
+    if(!resp.ok){ const err=await resp.json(); throw new Error(err.error?.message||`HTTP ${resp.status}`); }
     const data=await resp.json();
     const raw=data.content?.map(b=>b.text||'').join('')||'';
-    let parsed;
-    try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}
-    catch(e){parsed={output:{error:'Parse error:\n'+raw.substring(0,300)},new_variables:[],internals:null};}
+    let parsed; try{parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());}
+    catch(e){parsed={output:{error:'Parse error: '+raw.substring(0,200)},new_variables:[],internals:null};}
 
-    if(parsed.new_variables){parsed.new_variables.forEach(v=>{sharedCtx[v.name]=`${v.type} — ${v.description||''}`;});renderVars(sharedCtx);}
-
-    execOrder++;cell.execNum=execOrder;
-    cell.output=buildOutHtml(parsed.output||{});
-    cell.internals=parsed.internals||null;
-
-    // Partial DOM update (no full re-render to preserve scroll)
-    if(outBody)outBody.innerHTML=cell.output;
-    const numEl=cellEl?.querySelector('.cell-num');
-    if(numEl){numEl.textContent=`[${execOrder}]`;numEl.className='cell-num done';}
-
-    // Inject/replace internals section
+    if(parsed.new_variables) parsed.new_variables.forEach(v=>{ sharedCtx[v.name]=`${v.type} — ${v.description||''}`; });
+    renderVars(sharedCtx);
+    execOrder++; cell.execNum=execOrder;
+    cell.output=buildOutHtml(parsed.output||{}); cell.internals=parsed.internals||null;
+    if(outBody) outBody.innerHTML=cell.output;
+    const numEl=cellEl?.querySelector('.cnum');
+    if(numEl){numEl.textContent=`[${execOrder}]`;numEl.className='cnum done';}
     updateInternalsEl(cell);
-
   }catch(err){
-    cell.output=`<span class="out-tag err">error</span><div class="out-error">${escH(err.message)}</div>`;
-    if(outBody)outBody.innerHTML=cell.output;
+    const isKeyErr=err.message.includes('401')||err.message.includes('auth')||err.message.toLowerCase().includes('api key');
+    cell.output=`<span class="out-tag err">error</span><div class="out-error">${escH(err.message)}${isKeyErr?'\n\n→ Check your API key (click the badge top-right)':''}</div>`;
+    if(outBody) outBody.innerHTML=cell.output;
   }
   runningId=null;
   if(cellEl){cellEl.classList.remove('running');const ri=cellEl.querySelector('.run-icon');if(ri)ri.textContent='▶';}
@@ -944,53 +931,45 @@ IMPORTANT:
 }
 
 function updateInternalsEl(cell){
-  const cellEl=document.getElementById(`cell-${cell.id}`);
-  if(!cellEl)return;
-  // Remove existing internals toggle+body
-  const existing=cellEl.querySelectorAll('.int-toggle-bar,.int-body');
-  existing.forEach(e=>e.remove());
-  if(!cell.internals)return;
-  // Insert after .cell-output
-  const outEl=document.getElementById(`out-${cell.id}`);
-  const intHtml=mkInternalsHtml(cell);
-  const tmp=document.createElement('div');
-  tmp.innerHTML=intHtml;
-  while(tmp.firstChild)cellEl.appendChild(tmp.firstChild);
-  // Auto-open internals panel
+  const cellEl=document.getElementById('cell-'+cell.id); if(!cellEl) return;
+  cellEl.querySelectorAll('.int-toggle,.int-body').forEach(e=>e.remove());
+  if(!cell.internals) return;
+  const tmp=document.createElement('div'); tmp.innerHTML=mkInternalsHtml(cell);
+  while(tmp.firstChild) cellEl.appendChild(tmp.firstChild);
   setTimeout(()=>toggleInt(cell.id),80);
 }
 
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    OUTPUT HTML
-───────────────────────────────────── */
+════════════════════════════════════ */
 function buildOutHtml(p){
   let h='';
-  if(p.print_output&&p.print_output.trim())h+=`<span class="out-tag ok">stdout</span><div class="out-stdout">${escH(p.print_output)}</div>`;
-  if(p.dataframes&&p.dataframes.length)p.dataframes.forEach(df=>{
+  if(p.print_output&&p.print_output.trim()) h+=`<span class="out-tag ok">stdout</span><div class="out-stdout">${escH(p.print_output)}</div>`;
+  if(p.dataframes&&p.dataframes.length) p.dataframes.forEach(df=>{
     h+=`<span class="out-tag df">${escH(df.label||'DataFrame')}</span>`;
     if(df.columns&&df.rows){
-      h+=`<div style="overflow-x:auto;margin:3px 0"><table class="nb-table"><thead><tr>`;
+      h+=`<div style="overflow-x:auto;margin:3px 0"><table class="nbt"><thead><tr>`;
       df.columns.forEach(c=>h+=`<th>${escH(String(c))}</th>`);
       h+=`</tr></thead><tbody>`;
       df.rows.forEach(r=>{h+='<tr>';r.forEach(v=>h+=`<td>${v===null||v===undefined?'<span style="color:var(--muted)">null</span>':escH(String(v))}</td>`);h+='</tr>';});
       h+=`</tbody></table>`;
-      if(df.truncated)h+=`<div style="font-size:9.5px;color:var(--muted);margin-top:2px">Showing ${df.rows.length} of ${df.total_rows||'?'} rows</div>`;
+      if(df.truncated) h+=`<div style="font-size:9.5px;color:var(--muted);margin-top:2px">Showing ${df.rows.length} of ${df.total_rows||'?'} rows</div>`;
       h+=`</div>`;
     }
   });
   if(p.schema&&p.schema.length){
     h+=`<span class="out-tag schema">schema</span><div style="margin:3px 0">`;
-    p.schema.forEach(f=>h+=`<div class="schema-row"><span class="sn">${escH(f.name)}</span><span class="st">${escH(f.type)}</span><span class="sq">${f.nullable?'nullable':'not null'}</span></div>`);
+    p.schema.forEach(f=>h+=`<div class="srow"><span class="sn">${escH(f.name)}</span><span class="st">${escH(f.type)}</span><span class="sq">${f.nullable?'nullable':'not null'}</span></div>`);
     h+=`</div>`;
   }
-  if(p.error)h+=`<span class="out-tag err">error</span><div class="out-error">${escH(p.error)}</div>`;
-  if(p.warnings&&p.warnings.length)p.warnings.forEach(w=>h+=`<div style="color:var(--spark);font-size:10.5px;margin-top:2px">⚠ ${escH(w)}</div>`);
+  if(p.error) h+=`<span class="out-tag err">error</span><div class="out-error">${escH(p.error)}</div>`;
+  if(p.warnings&&p.warnings.length) p.warnings.forEach(w=>h+=`<div style="color:var(--spark);font-size:10.5px;margin-top:2px">⚠ ${escH(w)}</div>`);
   return h||`<span style="color:var(--muted);font-size:11px">No output</span>`;
 }
 
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    VARS PANEL
-───────────────────────────────────── */
+════════════════════════════════════ */
 function renderVars(ctx){
   const entries=Object.entries(ctx);
   document.getElementById('varsEmpty').style.display=entries.length?'none':'block';
@@ -999,17 +978,17 @@ function renderVars(ctx){
     return `<div class="var-item"><div><span class="var-name">${escH(k)}</span><span class="var-type">${escH(parts[0]||'')}</span></div><div class="var-val">${escH(parts[1]||'')}</div></div>`;
   }).join('');
 }
-function switchRp(el,panelId){
+function switchRp(el,pid){
   document.querySelectorAll('.rp-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.rp-panel').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');document.getElementById(panelId).classList.add('active');
+  el.classList.add('active'); document.getElementById(pid).classList.add('active');
 }
 
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    MARKDOWN RENDERER
-───────────────────────────────────── */
+════════════════════════════════════ */
 function renderMd(src){
-  if(!src)return'';
+  if(!src) return '';
   let h=escH(src);
   h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');
   h=h.replace(/^## (.+)$/gm,'<h2>$1</h2>');
@@ -1020,366 +999,58 @@ function renderMd(src){
   h=h.replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>');
   h=h.replace(/^- (.+)$/gm,'<li>$1</li>');
   h=h.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
-  h=h.replace(/\n\n/g,'</p><p>');
-  h='<p>'+h+'</p>';
+  h=h.replace(/\n\n/g,'</p><p>'); h='<p>'+h+'</p>';
   h=h.replace(/<p><(h[123]|ul|blockquote)/g,'<$1');
   h=h.replace(/<\/(h[123]|ul|blockquote)><\/p>/g,'</$1>');
   h=h.replace(/<p><\/p>/g,'');
   return h;
 }
 
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    HELPERS
-───────────────────────────────────── */
+════════════════════════════════════ */
 function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function escA(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-/* ─────────────────────────────────────
-   PERSISTENCE — localStorage
-───────────────────────────────────── */
-const STORAGE_KEY = 'sparkbook_notebooks';
-const ACTIVE_KEY  = 'sparkbook_active';
-let currentNotebookId = null;
-
-function getAllNotebooks(){
-  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}'); }
-  catch(e){ return {}; }
-}
-function saveAllNotebooks(all){ localStorage.setItem(STORAGE_KEY, JSON.stringify(all)); }
-
-function saveCurrentNotebook(){
-  if(!currentNotebookId) return;
-  // Flush textarea values
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
-  const title = document.getElementById('nbTitle').value || 'Untitled Notebook';
-  const all = getAllNotebooks();
-  all[currentNotebookId] = {
-    id: currentNotebookId,
-    title,
-    savedAt: Date.now(),
-    cells: cells.map(c=>({
-      id: c.id,
-      type: c.type,
-      source: c.source,
-      execNum: c.execNum,
-      output: c.output,
-      internals: c.internals
-    })),
-    execOrder,
-    sharedCtx,
-    cellIdC
-  };
-  saveAllNotebooks(all);
-  localStorage.setItem(ACTIVE_KEY, currentNotebookId);
-  showSaveToast();
-}
-
-function loadNotebook(id){
-  const all = getAllNotebooks();
-  const nb = all[id];
-  if(!nb) return false;
-  currentNotebookId = id;
-  cells = nb.cells.map(c=>({...c}));
-  execOrder = nb.execOrder||0;
-  sharedCtx = nb.sharedCtx||{};
-  cellIdC = nb.cellIdC||cells.reduce((m,c)=>Math.max(m,c.id),0);
-  document.getElementById('nbTitle').value = nb.title||'Untitled Notebook';
-  localStorage.setItem(ACTIVE_KEY, id);
-  renderNotebook();
-  renderVars(sharedCtx);
-  setTimeout(()=>{
-    cells.forEach(c=>{
-      if(c.type==='markdown'&&c.source){
-        const md=document.getElementById(`md-${c.id}`);const wrap=document.getElementById(`ew-${c.id}`);
-        if(md){md.innerHTML=renderMd(c.source);md.classList.add('visible');}
-        if(wrap)wrap.style.display='none';
-      }
-    });
-  },80);
-  return true;
-}
-
-function newNotebook(){
-  const id = 'nb_'+Date.now();
-  currentNotebookId = id;
-  cellIdC = 0;
-  execOrder = 0;
-  sharedCtx = {};
-  document.getElementById('nbTitle').value = 'Untitled Notebook';
-  loadDefaultCells();
-  saveCurrentNotebook();
-  renderVars({});
-  closeNbManager();
-}
-
-function deleteNotebook(id){
-  if(!confirm('Delete this notebook? This cannot be undone.')) return;
-  const all = getAllNotebooks();
-  delete all[id];
-  saveAllNotebooks(all);
-  if(currentNotebookId===id){
-    const ids=Object.keys(all);
-    if(ids.length) loadNotebook(ids[ids.length-1]);
-    else newNotebook();
-  }
-  openNbManager();
-}
-
-// Auto-save debounce
-let saveTimer=null;
-function scheduleSave(){
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(saveCurrentNotebook,1200);
-}
-
-function showSaveToast(){
-  const t=document.getElementById('saveToast');
-  if(!t)return;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>t.classList.remove('show'),2000);
-}
-
-/* ─────────────────────────────────────
-   NOTEBOOK MANAGER MODAL
-───────────────────────────────────── */
-function openNbManager(){
-  const all=getAllNotebooks();
-  const entries=Object.values(all).sort((a,b)=>b.savedAt-a.savedAt);
-  const list=entries.map(nb=>{
-    const d=new Date(nb.savedAt);
-    const dateStr=d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    const timeStr=d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-    const isActive=nb.id===currentNotebookId;
-    return `<div class="nb-item${isActive?' active':''}" onclick="switchNotebook('${nb.id}')">
-      <div class="nb-item-icon">📓</div>
-      <div class="nb-item-info">
-        <div class="nb-item-title">${escH(nb.title||'Untitled')}</div>
-        <div class="nb-item-meta">${(nb.cells||[]).filter(c=>c.type==='code').length} code cells · Saved ${dateStr} ${timeStr}</div>
-      </div>
-      <div class="nb-item-actions">
-        ${isActive?'<span style="font-size:9px;color:var(--green);padding:2px 6px;background:rgba(52,211,153,.1);border-radius:3px">OPEN</span>':''}
-        <div class="nb-del-btn" onclick="event.stopPropagation();deleteNotebook('${nb.id}')" title="Delete">🗑</div>
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById('nbManagerList').innerHTML=list||'<div style="padding:20px;text-align:center;color:var(--muted);font-size:12px">No saved notebooks yet.</div>';
-  document.getElementById('nbManagerModal').classList.add('open');
-}
-function closeNbManager(){ document.getElementById('nbManagerModal').classList.remove('open'); }
-function switchNotebook(id){ loadNotebook(id); closeNbManager(); }
-
-/* ─────────────────────────────────────
-   EXPORT / IMPORT
-───────────────────────────────────── */
-function exportNotebook(){
-  cells.forEach(c=>{const ta=document.getElementById(`ta-${c.id}`);if(ta)c.source=ta.value;});
-  const title=document.getElementById('nbTitle').value||'notebook';
-  const payload={
-    sparkbook_export:true,
-    version:1,
-    title,
-    cells:cells.map(c=>({id:c.id,type:c.type,source:c.source,execNum:c.execNum,output:c.output,internals:c.internals})),
-    execOrder,sharedCtx,cellIdC
-  };
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=title.replace(/[^a-z0-9]/gi,'_').toLowerCase()+'.sparkbook.json';
-  a.click();
-}
-
-function importNotebook(){
-  const inp=document.createElement('input');
-  inp.type='file';inp.accept='.json,.sparkbook.json';
-  inp.onchange=e=>{
-    const f=e.target.files[0]; if(!f)return;
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      try{
-        const data=JSON.parse(ev.target.result);
-        if(!data.sparkbook_export) throw new Error('Not a SparkBook file');
-        const id='nb_'+Date.now();
-        currentNotebookId=id;
-        cells=(data.cells||[]).map(c=>({...c}));
-        execOrder=data.execOrder||0;
-        sharedCtx=data.sharedCtx||{};
-        cellIdC=data.cellIdC||cells.reduce((m,c)=>Math.max(m,c.id),0);
-        document.getElementById('nbTitle').value=data.title||'Imported Notebook';
-        renderNotebook();
-        renderVars(sharedCtx);
-        saveCurrentNotebook();
-        setTimeout(()=>{cells.forEach(c=>{if(c.type==='markdown'&&c.source){const md=document.getElementById(`md-${c.id}`);const wrap=document.getElementById(`ew-${c.id}`);if(md){md.innerHTML=renderMd(c.source);md.classList.add('visible');}if(wrap)wrap.style.display='none';}});},80);
-        alert('Notebook imported successfully!');
-      }catch(err){alert('Import failed: '+err.message);}
-    };
-    reader.readAsText(f);
-  };
-  inp.click();
-}
-
-/* ─────────────────────────────────────
-   PATCH: auto-save hooks
-───────────────────────────────────── */
-const _origRenderNotebook = renderNotebook;
-function renderNotebook(){
-  _origRenderNotebook();
-  scheduleSave();
-}
-
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    DEFAULT CELLS
-───────────────────────────────────── */
+════════════════════════════════════ */
 function loadDefaultCells(){
+  cellIdC=0; execOrder=0; sharedCtx={};
   cells=[
     newCell('markdown','# PySpark Notebook\nWelcome to **SparkBook** — a Databricks-style notebook with built-in **Spark Internals Viewer**.\nRun any code cell and click **🔬 Spark Internals** below the output to see operations, DAG stages, and the execution plan.'),
-    newCell('code',`from pyspark.sql import SparkSession
-
-spark = SparkSession.builder \\
-    .appName("SparkBook") \\
-    .master("local[*]") \\
-    .getOrCreate()
-
-print("SparkSession ready!")`),
+    newCell('code',`from pyspark.sql import SparkSession\n\nspark = SparkSession.builder \\\n    .appName("SparkBook") \\\n    .master("local[*]") \\\n    .getOrCreate()\n\nprint("SparkSession ready!")`),
     newCell('markdown','## Load Data\nCreate a DataFrame with employee records.'),
-    newCell('code',`data = [
-    (1, "Alice",   "Engineering", 95000, 30),
-    (2, "Bob",     "Marketing",   70000, 25),
-    (3, "Carol",   "Engineering", 120000, 35),
-    (4, "Dave",    "HR",          65000, 28),
-    (5, "Eve",     "Marketing",   80000, 32),
-    (6, "Frank",   "Engineering", 87000, 29),
-]
-
-df = spark.createDataFrame(data, ["id","name","dept","salary","age"])
-df.show()`),
-    newCell('code',`df.printSchema()
-print(f"Total rows: {df.count()}")`),
+    newCell('code',`data = [\n    (1, "Alice",   "Engineering", 95000, 30),\n    (2, "Bob",     "Marketing",   70000, 25),\n    (3, "Carol",   "Engineering", 120000, 35),\n    (4, "Dave",    "HR",          65000, 28),\n    (5, "Eve",     "Marketing",   80000, 32),\n    (6, "Frank",   "Engineering", 87000, 29),\n]\n\ndf = spark.createDataFrame(data, ["id","name","dept","salary","age"])\ndf.show()`),
+    newCell('code','df.printSchema()\nprint(f"Total rows: {df.count()}")'),
     newCell('markdown','## Transformations & Actions\nNotice how **filter** and **select** are lazy transformations, but **show** triggers actual execution.'),
-    newCell('code',`from pyspark.sql.functions import col, avg, count, round as spark_round
-
-# Narrow transformations — lazy, no shuffle
-engineers = df.filter(col("dept") == "Engineering")
-result = engineers.select("name", "salary")
-
-# Action — triggers the job
-result.show()`),
-    newCell('code',`# Wide transformation (shuffle) — groupBy redistributes data across partitions
-dept_stats = df.groupBy("dept").agg(
-    count("id").alias("headcount"),
-    spark_round(avg("salary"), 2).alias("avg_salary")
-).orderBy("avg_salary", ascending=False)
-
-dept_stats.show()`),
+    newCell('code',`from pyspark.sql.functions import col, avg, count, round as spark_round\n\n# Narrow transformations — lazy, no shuffle\nengineers = df.filter(col("dept") == "Engineering")\nresult = engineers.select("name", "salary")\n\n# Action — triggers the job\nresult.show()`),
+    newCell('code',`# Wide transformation (shuffle) — groupBy redistributes data across partitions\ndept_stats = df.groupBy("dept").agg(\n    count("id").alias("headcount"),\n    spark_round(avg("salary"), 2).alias("avg_salary")\n).orderBy("avg_salary", ascending=False)\n\ndept_stats.show()`),
   ];
   renderNotebook();
-  setTimeout(()=>{cells.forEach(c=>{if(c.type==='markdown'&&c.source){const md=document.getElementById(`md-${c.id}`);const wrap=document.getElementById(`ew-${c.id}`);if(md){md.innerHTML=renderMd(c.source);md.classList.add('visible');}if(wrap)wrap.style.display='none';}});},80);
+  setTimeout(renderMdCells,80);
 }
 
-/* ─────────────────────────────────────
+/* ════════════════════════════════════
    INIT
-───────────────────────────────────── */
+════════════════════════════════════ */
 function init(){
-  // Try to restore last active notebook
-  const activeId = localStorage.getItem(ACTIVE_KEY);
-  const all = getAllNotebooks();
-  if(activeId && all[activeId]){
-    loadNotebook(activeId);
-  } else {
-    // Check if any notebooks exist
-    const ids = Object.keys(all);
-    if(ids.length){
-      loadNotebook(ids[ids.length-1]);
-    } else {
-      // First time — create default notebook
-      currentNotebookId = 'nb_'+Date.now();
-      loadDefaultCells();
-      saveCurrentNotebook();
-    }
+  updateKeyUI();
+  document.getElementById('nbTitle').addEventListener('input', scheduleSave);
+  window.addEventListener('beforeunload', doSave);
+
+  const activeId=localStorage.getItem(AK), all=allNbs();
+  if(activeId&&all[activeId]){ loadNb(activeId); }
+  else {
+    const ids=Object.keys(all);
+    if(ids.length){ loadNb(ids[ids.length-1]); }
+    else { currentNbId='nb_'+Date.now(); loadDefaultCells(); doSave(); }
   }
 
-  // Save on title change
-  document.getElementById('nbTitle').addEventListener('input', scheduleSave);
-
-  // Save on beforeunload
-  window.addEventListener('beforeunload', ()=>saveCurrentNotebook());
+  // Show key modal on first load if no key
+  if(!getKey()){ setTimeout(()=>openKeyModal('👋 Welcome! Add your Anthropic API key to start running PySpark code.'),500); }
 }
-
-/* ─────────────────────────────────────
-   API KEY MANAGEMENT
-───────────────────────────────────── */
-function showKeyModal(msg){
-  document.getElementById('keyModalMsg').textContent = msg||'';
-  const saved = localStorage.getItem('sparkbook_apikey')||'';
-  document.getElementById('keyInput').value = saved ? saved.substring(0,8)+'…(saved)' : '';
-  document.getElementById('keyModal').classList.add('open');
-  setTimeout(()=>document.getElementById('keyInput').focus(),100);
-}
-function closeKeyModal(){ document.getElementById('keyModal').classList.remove('open'); }
-function saveApiKey(){
-  const val = document.getElementById('keyInput').value.trim();
-  if(!val || val.includes('…(saved)')){ closeKeyModal(); return; }
-  if(!val.startsWith('sk-ant-')){ document.getElementById('keyModalMsg').textContent='⚠ Key should start with sk-ant-…'; return; }
-  localStorage.setItem('sparkbook_apikey', val);
-  closeKeyModal();
-  updateKeyStatus();
-  showSaveToast();
-}
-function removeApiKey(){
-  if(!confirm('Remove your API key? The platform will stop working until you add it again.')) return;
-  localStorage.removeItem('sparkbook_apikey');
-  closeKeyModal();
-  updateKeyStatus();
-}
-function updateKeyStatus(){
-  const key = localStorage.getItem('sparkbook_apikey')||'';
-  const dot = document.getElementById('apiStatusDot');
-  const label = document.getElementById('apiStatusLabel');
-  if(key){ dot.style.background='var(--green)'; dot.style.boxShadow='0 0 5px var(--green)'; label.textContent='API Active'; }
-  else { dot.style.background='var(--red)'; dot.style.boxShadow='0 0 5px var(--red)'; label.textContent='No API Key'; }
-}
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeKeyModal(); });
-
 init();
-updateKeyStatus();
 </script>
-
-<!-- API KEY MODAL -->
-<div id="keyModal" class="nb-modal-overlay" onclick="if(event.target===this)closeKeyModal()">
-  <div class="nb-modal" style="max-width:460px">
-    <div class="nb-modal-header">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:16px">🔑 Anthropic API Key</div>
-      <div style="cursor:pointer;color:var(--muted);padding:4px 8px;font-size:20px;line-height:1" onclick="closeKeyModal()">×</div>
-    </div>
-    <div style="padding:20px">
-      <p id="keyModalMsg" style="font-size:12px;color:var(--red);margin-bottom:12px;min-height:16px"></p>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.6">
-        Paste your Anthropic API key below. It is stored <strong style="color:var(--text)">only in your browser</strong> (localStorage) and never sent anywhere except directly to Anthropic's API.
-      </div>
-      <input id="keyInput" type="password"
-        placeholder="sk-ant-api03-..."
-        style="width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;margin-bottom:14px;"
-        onkeydown="if(event.key==='Enter')saveApiKey()"
-      />
-      <div style="display:flex;gap:8px;justify-content:space-between;align-items:center">
-        <button onclick="removeApiKey()" style="background:transparent;border:1px solid rgba(248,113,113,.3);color:var(--red);padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">🗑 Remove Key</button>
-        <div style="display:flex;gap:8px">
-          <button onclick="closeKeyModal()" style="background:transparent;border:1px solid var(--border);color:var(--text2);padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">Cancel</button>
-          <button onclick="saveApiKey()" style="background:var(--accent);color:#000;border:none;padding:7px 18px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Save Key</button>
-        </div>
-      </div>
-      <div style="margin-top:16px;padding:12px;background:var(--surface2);border-radius:7px;border:1px solid var(--border)">
-        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:6px">How to get a key</div>
-        <div style="font-size:11.5px;color:var(--text2);line-height:1.7">
-          1. Go to <strong style="color:var(--text)">console.anthropic.com</strong><br>
-          2. Sign in → <strong style="color:var(--text)">API Keys</strong> → <strong style="color:var(--text)">Create Key</strong><br>
-          3. Set a spend limit under <strong style="color:var(--text)">Billing → Usage Limits</strong><br>
-          4. Paste the key here and click <strong style="color:var(--accent)">Save Key</strong><br>
-          <span style="color:var(--green);margin-top:4px;display:block">To disable: click 🗑 Remove Key — zero cost incurred when no key is set.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 </body>
 </html>
